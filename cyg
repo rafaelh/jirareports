@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+
+from sys import argv
+
+#sys.argv[0] is the filename, sys.argv[1] is the first argument
+
+if sys.argv[1] == ('update'):
+    print("Updating...")
