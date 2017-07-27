@@ -96,16 +96,13 @@ print("Generating Email...")
 with open('devupdate.html', 'r') as emailFormat:
     BODY = emailFormat.read().replace('\n', '')
 
-BODY += "<p>Feature Parity: %s pending, %s done</p>" % (len(featureparity.todo),
-                                                        len(featureparity.done))
+BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done</p>" % (len(featureparity.todo), len(featureparity.done))
 BODY += "<p><br><b>Product Health</b><br>"
-BODY += "SRWeb - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, %s open Tech Debt issues<br>" % (len(srweb.bugs),
-                                                                len(srweb.techdebt))
-BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, %s open Tech Debt issues<br>" % (len(portalx.bugs),
-                                                                  len(portalx.techdebt))
-BODY += "Cloud - %s open bugs, no Tech Debt issues<br>" % len(cloud.bugs)
+BODY += "SRWeb - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
+BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
+BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</p>" % len(cloud.bugs)
 
-BODY += "<br>**Insert Bug Graph**</p><br>"
+BODY += "<br><p>**Insert Bug Graph**</p><br>"
 
 BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
         % (len(techhelp.in2weeks), techhelp.trend, len(techhelp.in3weeks))
