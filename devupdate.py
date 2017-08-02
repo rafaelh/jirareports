@@ -62,7 +62,7 @@ class Cloud:
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.enhancements = JQL.search_issues('project = Cloud AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        + 'resolution = Fixed ORDER BY priority DESC', maxResults=200)
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
 class Techhelp:
     """ Query JIRA for information on Techhelps """
