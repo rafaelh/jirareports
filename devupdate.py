@@ -20,7 +20,8 @@ def getpassword():
 
 USERNAME = 'rhart'
 PASSWORD = getpassword()
-JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
+try:
+    JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 
 
 # Get data from JIRA
@@ -60,6 +61,9 @@ class Cloud:
         print("Querying JIRA for Cloud issues...")
         self.bugs = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.closedbugs1w = JQL.search_issues('project = Cloud AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
         self.enhancements = JQL.search_issues('project = Cloud AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
@@ -111,9 +115,9 @@ BODY += "<br>**Insert Techhelp Chart**</p><br>"
 
 BODY += "<p>Done in the last week:<br><ul>"
 BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s " \
-        % (len(portalx.closedbugs1w + srweb.closedbugs1w), len(portalx.closedbugs1w))
-BODY += "PortalX</a> / <a href=\"https://jira.starrez.com/issues/?filter=22518)\">" \
-        + "%s SRWeb</a>)</li>" % len(srweb.closedbugs1w)
+        % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
+BODY += "PortalX</a> / <a href=\"https://jira.starrez.com/issues/?filter=22518\">" \
+        + "%s SRWeb</a> / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>)</li>" % (len(srweb.closedbugs1w), len(cloud.closedbugs1w))
 
 for issue in portalx.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
