@@ -2,7 +2,6 @@
 
 # To Do:
 # * Increase spacing between bullet points
-# * Add Error handling in case the password is wrong
 
 import datetime
 from getpass import getpass
@@ -22,6 +21,8 @@ USERNAME = 'rhart'
 PASSWORD = getpassword()
 try:
     JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
+except:
+    print("Connection didn't work. Maybe the password is wrong?")
 
 
 # Get data from JIRA
