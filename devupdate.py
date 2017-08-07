@@ -1,24 +1,18 @@
+""" Creates an update on Development items for the last week """
 # Requires pypiwin32 and jira
 
 # To Do:
 # * Increase spacing between bullet points
 
 import datetime
+import os
 from getpass import getpass
 import win32com.client
 from jira import JIRA
 
+USERNAME = os.getlogin()
+PASSWORD = getpass("JIRA Password: ")
 
-def getpassword():
-    """ Get JIRA password, so we aren't hardcoding it """
-    password = getpass("JIRA Password: ")
-    if not password:
-        exit()
-    else:
-        return password
-
-USERNAME = 'rhart'
-PASSWORD = getpassword()
 try:
     JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 except:
