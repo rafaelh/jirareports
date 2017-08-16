@@ -11,12 +11,13 @@ import win32com.client
 from jira import JIRA
 
 USERNAME = os.getlogin()
+print("JIRA Username: " + USERNAME)
 PASSWORD = getpass("JIRA Password: ")
 
 try:
     JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 except:
-    print("Connection didn't work. Maybe the password is wrong?")
+    print("Connection didn't work. Maybe the username or password is wrong?")
 
 
 # Get data from JIRA
