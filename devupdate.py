@@ -84,12 +84,18 @@ class FeatureParity:
         self.done = JQL.search_issues('labels = Feature_Parity AND resolution = fixed ',
                                       maxResults=500)
 
+class Documentation:
+    """ Query JIRA for information on Doc jobs """
+    def __init__(self):
+        print("Querying JIRA for Documentation issues...")
+        self.newdocs = JQL.search_issues('project = Documentation AND resolved >= -1w AND resolution = Fixed ORDER BY resolutiondate')
+
 portalx = PortalX()
 srweb = StarRezWeb()
 cloud = Cloud()
 techhelp = Techhelp()
 featureparity = FeatureParity()
-
+documentation = Documentation()
 
 # Create Email Contents
 print("Generating Email...")
@@ -98,7 +104,7 @@ with open('devupdate.html', 'r') as emailFormat:
 
 BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done</p>" % (len(featureparity.todo), len(featureparity.done))
 BODY += "<p><br><b>Product Health</b><br>"
-BODY += "SRWeb - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
+BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
 BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</p>" % len(cloud.bugs)
 
@@ -113,7 +119,7 @@ BODY += "<p>Done in the last week:<br><ul>"
 BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s " \
         % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
 BODY += "PortalX</a> / <a href=\"https://jira.starrez.com/issues/?filter=22518\">" \
-        + "%s SRWeb</a> / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>)</li>" % (len(srweb.closedbugs1w), len(cloud.closedbugs1w))
+        + "%s Web</a> / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>)</li>" % (len(srweb.closedbugs1w), len(cloud.closedbugs1w))
 
 for issue in portalx.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
@@ -122,6 +128,10 @@ for issue in srweb.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 for issue in cloud.enhancements:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
+BODY += "</ul><p>New Documents: </p><ul>"
+for issue in documentation.newdocs:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 BODY += "</ul></p><p>Thanks,<br><br>Rafe<br></p></body></html>"

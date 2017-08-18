@@ -19,6 +19,7 @@ def getpassword():
         return password
 
 USERNAME = 'rhart'
+print("Username: " + USERNAME)
 PASSWORD = getpassword()
 JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 
