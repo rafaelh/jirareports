@@ -3,6 +3,7 @@
 
 # To Do:
 # * Increase spacing between bullet points
+# * Add Mobile jobs
 
 import datetime
 import os
@@ -107,6 +108,7 @@ BODY += "<p><br><b>Product Health</b><br>"
 BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
 BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</p>" % len(cloud.bugs)
+# StarRezX bugs
 
 BODY += "<br><p>**Insert Bug Graph**</p><br>"
 
@@ -120,6 +122,7 @@ BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">
         % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
 BODY += "PortalX</a> / <a href=\"https://jira.starrez.com/issues/?filter=22518\">" \
         + "%s Web</a> / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>)</li>" % (len(srweb.closedbugs1w), len(cloud.closedbugs1w))
+# StarRezX Bug Count
 
 for issue in portalx.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
@@ -130,10 +133,14 @@ for issue in srweb.enhancements:
 for issue in cloud.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
+# Add StarRezX Enhancements
+
+# Conditional so we don't show New Docs if none have been done
 BODY += "</ul><p>New Documents: </p><ul>"
 for issue in documentation.newdocs:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
+
 BODY += "</ul></p><p>Thanks,<br><br>Rafe<br></p></body></html>"
 
 
