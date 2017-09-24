@@ -136,7 +136,7 @@ for issue in cloud.enhancements:
 # Add StarRezX Enhancements
 
 # Conditional so we don't show New Docs if none have been done
-BODY += "</ul><p>New Documents: </p><ul>"
+BODY += "</ul><p>New Documents (Evan + Tim + Support): </p><ul>"
 for issue in documentation.newdocs:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
