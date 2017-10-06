@@ -65,6 +65,32 @@ class Cloud:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
+class Mobile:
+    """ Query JIRA for information on Mobile """
+    def __init__(self):
+        print("Querying JIRA for Mobile issues...")
+        self.bugs = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.closedbugs1w = JQL.search_issues('project = "Mobile Applications" AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+        self.enhancements = JQL.search_issues('project = "Mobile Applications" AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
+class Integrations:
+    """ Query JIRA for information on the Integrations Team """
+    def __init__(self):
+        print("Querying JIRA for Integration issues...")
+        #self.bugs = JQL.search_issues('project = "Custom Development" AND resolution = Unresolved ' \
+        #+ 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=500)
+        #self.closedbugs1w = JQL.search_issues('project = "Custom Development" AND ' \
+        #+ 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        #+ 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+        self.enhancements = JQL.search_issues('project = "Custom Development" AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", Sub-Project) AND ' \
+        + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority DESC', maxResults=200)
+
 class Techhelp:
     """ Query JIRA for information on Techhelps """
     def __init__(self):
@@ -94,6 +120,8 @@ class Documentation:
 portalx = PortalX()
 srweb = StarRezWeb()
 cloud = Cloud()
+mobile = Mobile()
+integrations = Integrations()
 techhelp = Techhelp()
 featureparity = FeatureParity()
 documentation = Documentation()
@@ -108,7 +136,7 @@ BODY += "<p><br><b>Product Health</b><br>"
 BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
 BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</p>" % len(cloud.bugs)
-# StarRezX bugs
+BODY += "StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</p>" % len(mobile.bugs)
 
 BODY += "<br><p>**Insert Bug Graph**</p><br>"
 
@@ -131,6 +159,12 @@ for issue in srweb.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 for issue in cloud.enhancements:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
+for issue in mobile.enhancements:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
+for issue in integrations.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 # Add StarRezX Enhancements
