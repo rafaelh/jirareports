@@ -135,7 +135,7 @@ BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20
 BODY += "<p><br><b>Product Health</b><br>"
 BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
-BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</p>" % len(cloud.bugs)
+BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs<br>" % len(cloud.bugs)
 BODY += "StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</p>" % len(mobile.bugs)
 
 BODY += "<br><p>**Insert Bug Graph**</p><br>"
