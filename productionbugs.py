@@ -25,7 +25,7 @@ JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 
 BODY = '<html><body>'
 
-for x in range (0, 11):
+for x in range (0, 5):
     print("Getting Month -" + str(x) + " for Web...")
     searchQuery = "project = Web and createdDate >= startOfMonth(-" + str(x) + "M) and createdDate <= endofMonth(-" + str(x) + "M) and issueFunction in linkedIssuesOf(\"project = techhelp\") and type = bug"
     bugList = JQL.search_issues(searchQuery, maxResults=200)
@@ -36,6 +36,18 @@ for x in range (0, 11):
     searchQuery = "project = PortalX and createdDate >= startOfMonth(-" + str(x) + "M) and createdDate <= endofMonth(-" + str(x) + "M) and issueFunction in linkedIssuesOf(\"project = techhelp\") and type = bug"
     bugList = JQL.search_issues(searchQuery, maxResults=200)
     BODY += "%s PortalX bugs for month %s</p>" % (len(bugList), str(x))
+    bugList = None
+
+    print("Getting Month -" + str(x) + " for StarRez X...")
+    searchQuery = "project = \"Mobile Applications\" and createdDate >= startOfMonth(-" + str(x) + "M) and createdDate <= endofMonth(-" + str(x) + "M) and issueFunction in linkedIssuesOf(\"project = techhelp\") and type = bug"
+    bugList = JQL.search_issues(searchQuery, maxResults=200)
+    BODY += "%s StarRez X bugs for month %s</p>" % (len(bugList), str(x))
+    bugList = None
+
+    print("Getting Month -" + str(x) + " for Cloud...")
+    searchQuery = "project = \"Cloud & Framework\" and createdDate >= startOfMonth(-" + str(x) + "M) and createdDate <= endofMonth(-" + str(x) + "M) and issueFunction in linkedIssuesOf(\"project = techhelp\") and type = bug"
+    bugList = JQL.search_issues(searchQuery, maxResults=200)
+    BODY += "%s Cloud bugs for month %s</p>" % (len(bugList), str(x))
     bugList = None
 
 def createemail(emailbody):
