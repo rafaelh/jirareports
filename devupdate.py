@@ -146,11 +146,12 @@ BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the 
 BODY += "<br>**Insert Techhelp Chart**</p><br>"
 
 BODY += "<p>Done in the last week:<br><ul>"
-BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s " \
+BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" \
         % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
-BODY += "PortalX</a> / <a href=\"https://jira.starrez.com/issues/?filter=22518\">" \
-        + "%s Web</a> / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>)</li>" % (len(srweb.closedbugs1w), len(cloud.closedbugs1w))
-# StarRezX Bug Count
+BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(srweb.closedbugs1w)
+BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(cloud.closedbugs1w)
+BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>)</li>" % len(mobile.closedbugs1w)
+
 
 for issue in portalx.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
