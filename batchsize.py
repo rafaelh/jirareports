@@ -1,4 +1,4 @@
-# Requires jira
+# Requires pypiwin32 and jira
 
 from datetime import datetime
 from getpass import getpass
@@ -20,15 +20,11 @@ JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 
 for x in range (0, 70):
 
-    print("Month -" + str(x) + ", Cycletime for PortalX: ", end="")
+    print("Month -" + str(x) + ", Batch Size: ", end="")
     searchQuery = "project = \"Cloud & Framework\" and resolved >= startOfMonth(-" + str(x) + "M) and resolved <= endofMonth(-" + str(x) + "M) and type in (Enhancement, \"Internal Development Task\")"
     issues = JQL.search_issues(searchQuery, maxResults=200)
-    cycle_time = 0
+    batch_size = 0
     for issue in issues:
-        #print("Raw Created: %s, Raw Resolved: %s" % (issue.fields.created, issue.fields.resolutiondate))
-        created_date = datetime.strptime(issue.fields.created, '%Y-%m-%dT%H:%M:%S.%f%z').date()
-        resolved_date = datetime.strptime(issue.fields.resolutiondate, '%Y-%m-%dT%H:%M:%S.%f%z').date()
-        difference = resolved_date - created_date
-        #print("Job: %s, Created: %s, Resolved: %s, Difference: %s" % (issue.key, created_date, resolved_date, difference.days))
-        cycle_time += difference.days
-    print(round(cycle_time / len(issues)))
+        if issue.fields.timeestimate is not None:
+            batch_size += issue.fields.timeestimate / 3600
+    print(round(batch_size / len(issues)), "Hours")
