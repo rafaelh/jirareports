@@ -11,7 +11,8 @@ from getpass import getpass
 import win32com.client
 from jira import JIRA
 
-USERNAME = os.getlogin()
+#USERNAME = os.getlogin()
+USERNAME = 'rhart'
 print("JIRA Username: " + USERNAME)
 PASSWORD = getpass("JIRA Password: ")
 
