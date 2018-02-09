@@ -83,11 +83,6 @@ class Integrations:
     """ Query JIRA for information on the Integrations Team """
     def __init__(self):
         print("Querying JIRA for Integration issues...")
-        #self.bugs = JQL.search_issues('project = "Custom Development" AND resolution = Unresolved ' \
-        #+ 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=500)
-        #self.closedbugs1w = JQL.search_issues('project = "Custom Development" AND ' \
-        #+ 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        #+ 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
         self.enhancements = JQL.search_issues('project = "Custom Development" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", Sub-Project) AND ' \
         + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority DESC', maxResults=200)
