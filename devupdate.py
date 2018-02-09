@@ -150,8 +150,10 @@ BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the 
 BODY += "<br>**Insert Techhelp Chart**</p><br>"
 
 BODY += "<p>Done in the last week:<br><ul>"
-BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" \
-        % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
+
+BODY += "<li>%s Bugs (" % len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w)
+if len(portalx.closedbugs1w) != 0:
+    BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(portalx.closedbugs1w)
 if len(srweb.closedbugs1w) != 0:
     BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(srweb.closedbugs1w)
 if len(cloud.closedbugs1w) != 0:
