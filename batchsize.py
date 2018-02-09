@@ -2,7 +2,7 @@
 
 from getpass import getpass
 from jira import JIRA
-
+import datetime
 
 def getpassword():
     """ Get JIRA password, so we aren't hardcoding it """
@@ -16,11 +16,17 @@ USERNAME = 'rhart'
 print("Username: " + USERNAME)
 PASSWORD = getpassword()
 JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
+MONTHINPUT = input("How many months do you want to go back? ")
+MONTHS = int(MONTHINPUT)
+now = datetime.datetime.now()
 
-for x in range (0, 70):
+for x in range (0, MONTHS):
 
     print("Month -" + str(x) + ", Batch Size: ", end="")
-    searchQuery = "project = \"Cloud & Framework\" and developer is not empty and resolved >= startOfMonth(-" + str(x) + "M) and resolved <= endofMonth(-" + str(x) + "M) and type in (Enhancement, \"Internal Development Task\")"
+
+    #Commented because CLOUD doesn't assign developers
+    #searchQuery = "project = \"Cloud & Framework\" and developer is not empty and resolved >= startOfMonth(-" + str(x) + "M) and resolved <= endofMonth(-" + str(x) + "M) and type in (Enhancement, \"Internal Development Task\")"
+    searchQuery = "project = \"Cloud & Framework\" and resolved >= startOfMonth(-" + str(x) + "M) and resolved <= endofMonth(-" + str(x) + "M) and type in (Enhancement, \"Internal Development Task\")"
     issues = JQL.search_issues(searchQuery, maxResults=200)
     batch_size = 0
     zero_issues = 0

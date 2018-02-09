@@ -129,11 +129,14 @@ documentation = Documentation()
 
 # Create Email Contents
 print("Generating Email...")
-with open('devupdate.html', 'r') as emailFormat:
+with open('emailheader.html', 'r') as emailFormat:
     BODY = emailFormat.read().replace('\n', '')
 
-BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done</p>" % (len(featureparity.todo), len(featureparity.done))
 BODY += "<p><br><b>Product Health</b><br>"
+BODY += "<br><p>**Insert Table**</p><br>"
+
+BODY += "<p><b>Links</b></p>"
+BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done<br>" % (len(featureparity.todo), len(featureparity.done))
 BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(srweb.bugs), len(srweb.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(portalx.bugs), len(portalx.techdebt))
 BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs<br>" % len(cloud.bugs)
@@ -149,11 +152,17 @@ BODY += "<br>**Insert Techhelp Chart**</p><br>"
 BODY += "<p>Done in the last week:<br><ul>"
 BODY += "<li>%s Bugs (<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" \
         % (len(portalx.closedbugs1w + srweb.closedbugs1w + cloud.closedbugs1w), len(portalx.closedbugs1w))
-BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(srweb.closedbugs1w)
-BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(cloud.closedbugs1w)
-BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>)</li>" % len(mobile.closedbugs1w)
+if len(srweb.closedbugs1w) != 0:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(srweb.closedbugs1w)
+if len(cloud.closedbugs1w) != 0:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(cloud.closedbugs1w)
+if len(mobile.closedbugs1w) != 0:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(mobile.closedbugs1w)
+BODY += ")</li>"
 
-
+for issue in mobile.enhancements:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
 for issue in portalx.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
@@ -169,13 +178,12 @@ for issue in mobile.enhancements:
 for issue in integrations.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
-# Add StarRezX Enhancements
 
-# Conditional so we don't show New Docs if none have been done
-BODY += "</ul><p>New Documents: </p><ul>"
-for issue in documentation.newdocs:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
+if len(documentation.newdocs) != 0:
+    BODY += "</ul><p>New Documents: </p><ul>"
+    for issue in documentation.newdocs:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
 
 BODY += "</ul></p><p>Thanks,<br><br>Rafe<br></p></body></html>"
 
