@@ -142,7 +142,7 @@ BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the 
 
 BODY += "<br>**Insert Techhelp Chart**</p><br>"
 
-BODY += "<p>Done in the last week:<br><ul>"
+BODY += "<p>Done in the last week:</p><ul>"
 
 BODY += "<li>%s Bugs (" % len(PORTALX.closedbugs1w + WEB.closedbugs1w + CLOUD.closedbugs1w)
 if PORTALX.closedbugs1w:
@@ -173,14 +173,17 @@ for issue in MOBILE.enhancements:
 for issue in INTEGRATIONS.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
+BODY += "</ul>"
+
 
 if DOCUMENTATION.newdocs:
-    BODY += "</ul><p>New Documents: </p><ul>"
+    BODY += "<p>New Documents:</p><ul>"
     for issue in DOCUMENTATION.newdocs:
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
+BODY += "</ul>"
 
-BODY += "</ul></p><p>Thanks,<br><br>Rafe<br></p></body></html>"
+BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
 
 def createemail(emailbody):
