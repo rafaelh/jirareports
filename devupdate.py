@@ -167,9 +167,6 @@ for issue in WEB.enhancements:
 for issue in CLOUD.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
-for issue in MOBILE.enhancements:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
 for issue in INTEGRATIONS.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
