@@ -77,6 +77,12 @@ class Mobile:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
+class Ux:
+    """ Query JIRA for information on the UX project """
+    def __init__(self):
+        print("Querying JIRA for UX issues...")
+        self.enhancements = JQL.search_issues("project = UX AND resolved >= -1w AND type not in (Epic)", maxResults=200)
+
 class Integrations:
     """ Query JIRA for information on the Integrations Team """
     def __init__(self):
@@ -119,6 +125,7 @@ INTEGRATIONS = Integrations()
 TECHHELP = Techhelp()
 FEATUREPARITY = FeatureParity()
 DOCUMENTATION = Documentation()
+UX = Ux()
 
 # Create Email Contents
 print("Generating Email...")
@@ -155,6 +162,9 @@ if MOBILE.closedbugs1w:
     BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(MOBILE.closedbugs1w)
 BODY += ")</li>"
 
+for issue in UX.enhancements:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
 for issue in MOBILE.enhancements:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
