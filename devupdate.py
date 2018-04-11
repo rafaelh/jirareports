@@ -1,10 +1,6 @@
 """ Creates an update on Development items for the last week """
 # Requires pypiwin32 and jira
 
-# To Do:
-# * Increase spacing between bullet points
-# * Add Mobile jobs
-
 import datetime
 from getpass import getpass
 import win32com.client
