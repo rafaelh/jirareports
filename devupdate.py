@@ -102,10 +102,11 @@ class Techhelp:
 class FeatureParity:
     """ Query JIRA for information on Feature Parity """
     def __init__(self):
+        print("Querying JIRA for Parity issues...")
         self.todo = JQL.search_issues('labels = Feature_Parity AND resolution = unresolved ',
                                       maxResults=200)
-        self.done = JQL.search_issues('labels = Feature_Parity AND resolution = fixed ',
-                                      maxResults=500)
+        #self.done = JQL.search_issues('labels = Feature_Parity AND resolution = fixed ',
+        #                              maxResults=300)
 
 class Documentation:
     """ Query JIRA for information on Doc jobs """
@@ -132,7 +133,7 @@ BODY += "<p><br><b>Product Health</b><br>"
 BODY += "<br><p>**Insert Table**</p><br>"
 
 BODY += "<p><b>Links</b></p>"
-BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done<br>" % (len(FEATUREPARITY.todo), len(FEATUREPARITY.done))
+BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done<br>" % (len(FEATUREPARITY.todo), 'XXX')# len(FEATUREPARITY.done))
 BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(WEB.bugs), len(WEB.techdebt))
 BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(PORTALX.bugs), len(PORTALX.techdebt))
 BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs<br>" % len(CLOUD.bugs)
