@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 jira = "*"
 "pypiwin32" = "*"
+pylint = "*"
 
 [dev-packages]
 

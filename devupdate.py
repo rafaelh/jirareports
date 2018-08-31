@@ -1,5 +1,4 @@
 """ Creates an update on Development items for the last week """
-# Requires pypiwin32 and jira
 
 import datetime
 from getpass import getpass
@@ -77,7 +76,7 @@ class Ux:
     """ Query JIRA for information on the UX project """
     def __init__(self):
         print("Querying JIRA for UX issues...")
-        self.enhancements = JQL.search_issues("project = UX AND resolved >= -1w AND type not in (Epic)", maxResults=200)
+        self.enhancements = JQL.search_issues("project = UX AND resolved >= -1w AND type not in (Epic) and resolution not in (\"Couldn\'t Solve\", \"No Action Required\", \"Won\'t Do\")", maxResults=200)
 
 class Integrations:
     """ Query JIRA for information on the Integrations Team """
