@@ -50,6 +50,38 @@ class Enhancements:
         + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority ' \
         + 'DESC', maxResults=200)
 
+class Bugs:
+    """ Query JIRA for information on Bugs in each project """
+    def __init__(self):
+        print("Querying JIRA for PortalX Bugs...")
+        self.portalx = JQL.search_issues('project = PortalX AND resolution = ' \
+        + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
+        self.portalxclosedlastweek = JQL.search_issues('project = PortalX AND resolved ' \
+        + '>= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
+
+        print("Querying JIRA for Web Bugs...")
+        self.web = JQL.search_issues('project = WEB AND resolution = Unresolved ' \
+        + ' AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
+        self.webclosedlastweek = JQL.search_issues('project = "StarRez Web" AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
+
+        print("Querying JIRA for Cloud Bugs...")
+        self.cloud = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.cloudclosedlastweek = JQL.search_issues('project = Cloud AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+
+        print("Querying JIRA for Mobile Bugs...")
+        self.mobile = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.mobileclosedlastweek = JQL.search_issues('project = "Mobile Applications" AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+
+
 
 class PortalX:
     """ Query JIRA for information on PortalX """
@@ -57,11 +89,7 @@ class PortalX:
         print("Querying JIRA for PortalX issues...")
         self.techdebt = JQL.search_issues('"Epic Link" = PORTALX-1499 and ' \
         + 'resolution = Unresolved', maxResults=200)
-        self.bugs = JQL.search_issues('project = PortalX AND resolution = ' \
-        + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
-        self.closedbugs1w = JQL.search_issues('project = PortalX AND resolved ' \
-        + '>= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        + 'resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
+
 
 
 class StarRezWeb:
@@ -70,37 +98,7 @@ class StarRezWeb:
         print("Querying JIRA for StarRez Web issues...")
         self.techdebt = JQL.search_issues('"Epic Link" = WEB-7359 and resolution = ' \
         + 'Unresolved', maxResults=200)
-        self.bugs = JQL.search_issues('project = WEB AND resolution = Unresolved ' \
-        + ' AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
-        self.closedbugs1w = JQL.search_issues('project = "StarRez Web" AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
 
-class Cloud:
-    """ Query JIRA for information on Cloud """
-    def __init__(self):
-        print("Querying JIRA for Cloud issues...")
-        self.bugs = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
-        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.closedbugs1w = JQL.search_issues('project = Cloud AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
-
-class Mobile:
-    """ Query JIRA for information on Mobile """
-    def __init__(self):
-        print("Querying JIRA for Mobile issues...")
-        self.bugs = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
-        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.closedbugs1w = JQL.search_issues('project = "Mobile Applications" AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
-
-
-class Ux:
-    """ Query JIRA for information on the UX project """
-    def __init__(self):
-        print("Querying JIRA for UX issues...")
 
 class Techhelp:
     """ Query JIRA for information on Techhelps """
@@ -130,14 +128,12 @@ class Documentation:
         self.newdocs = JQL.search_issues('project = Documentation AND resolved >= -1w AND resolution = Fixed ORDER BY resolutiondate')
 
 ENHANCEMENTS = Enhancements()
+BUGS = Bugs()
 PORTALX = PortalX()
 WEB = StarRezWeb()
-CLOUD = Cloud()
-MOBILE = Mobile()
 TECHHELP = Techhelp()
 FEATUREPARITY = FeatureParity()
 DOCUMENTATION = Documentation()
-UX = Ux()
 
 # Create Email Contents
 print("Generating Email...")
@@ -149,10 +145,10 @@ BODY += "<br><p>**Insert Table**</p><br>"
 
 BODY += "<p><b>Links</b></p>"
 BODY += "<p>Feature Parity: <a href=\"https://jira.starrez.com/issues/?filter=20417\">%s</a> pending, %s done<br>" % (len(FEATUREPARITY.todo), 'XXX')# len(FEATUREPARITY.done))
-BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(WEB.bugs), len(WEB.techdebt))
-BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(PORTALX.bugs), len(PORTALX.techdebt))
-BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs<br>" % len(CLOUD.bugs)
-BODY += "StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</p>" % len(MOBILE.bugs)
+BODY += "Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues<br>" % (len(BUGS.web), len(WEB.techdebt))
+BODY += "PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues<br>" % (len(BUGS.portalx), len(PORTALX.techdebt))
+BODY += "Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs<br>" % len(BUGS.cloud)
+BODY += "StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</p>" % len(BUGS.mobile)
 
 BODY += "<br><p>**Insert Bug Graph**</p><br>"
 
@@ -163,15 +159,15 @@ BODY += "<br>**Insert Techhelp Chart**</p><br>"
 
 BODY += "<p>Done in the last week:</p><ul>"
 
-BODY += "<li>%s Bugs (" % len(PORTALX.closedbugs1w + WEB.closedbugs1w + CLOUD.closedbugs1w)
-if PORTALX.closedbugs1w:
-    BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(PORTALX.closedbugs1w)
-if WEB.closedbugs1w:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(WEB.closedbugs1w)
-if CLOUD.closedbugs1w:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(CLOUD.closedbugs1w)
-if MOBILE.closedbugs1w:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(MOBILE.closedbugs1w)
+BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek)
+if BUGS.portalxclosedlastweek:
+    BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
+if BUGS.webclosedlastweek:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(BUGS.webclosedlastweek)
+if BUGS.cloudclosedlastweek:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(BUGS.cloudclosedlastweek)
+if BUGS.mobileclosedlastweek:
+    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
 BODY += ")</li>"
 
 for issue in ENHANCEMENTS.ux:
