@@ -63,28 +63,28 @@ class Bugs:
         + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
         self.portalxclosedlastweek = JQL.search_issues('project = PortalX AND resolved ' \
         + '>= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        + 'resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
+        + 'resolution not in (duplicate, "No Action Required", "Won\'t Do") and component != "UITest"', maxResults=200)
 
         print("Querying JIRA for Web Bugs...")
         self.web = JQL.search_issues('project = WEB AND resolution = Unresolved ' \
         + ' AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
         self.webclosedlastweek = JQL.search_issues('project = "StarRez Web" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required") and component != "UITest"', maxResults=200)
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do") and component != "UITest"', maxResults=200)
 
         print("Querying JIRA for Cloud Bugs...")
         self.cloud = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.cloudclosedlastweek = JQL.search_issues('project = Cloud AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
         print("Querying JIRA for Mobile Bugs...")
         self.mobile = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.mobileclosedlastweek = JQL.search_issues('project = "Mobile Applications" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required")', maxResults=200)
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
 
 
