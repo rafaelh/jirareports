@@ -145,10 +145,10 @@ with open('emailheader.html', 'r') as emailFormat:
 BODY += "<p><br><b>Product Health</b><br>"
 BODY += "<br><p>**Insert Table**</p><br>"
 
-BODY += "<p><b>Links</b></p><ul>"
+BODY += "<b>Links</b><br><ul>"
 BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(WEB.techdebt))
 BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(PORTALX.techdebt))
-BODY += "<li>Cloud - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
+BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
 BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
 BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
 BODY += "</p></ul>"
