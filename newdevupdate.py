@@ -50,6 +50,11 @@ class Enhancements:
         + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority ' \
         + 'DESC', maxResults=200)
 
+        print("Querying JIRA for Cloud Adoption enhancements...")
+        self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
     def __init__(self):
@@ -186,6 +191,9 @@ for issue in ENHANCEMENTS.cloud:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 for issue in ENHANCEMENTS.cd:
+    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+    % (issue, issue, issue.fields.summary)
+for issue in ENHANCEMENTS.cloudadoption:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
 BODY += "</ul>"
