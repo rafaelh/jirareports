@@ -153,7 +153,7 @@ BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815
 BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
 BODY += "</p></ul>"
 
-BODY += "<br><p>**Insert Bug Graph**</p><br>"
+BODY += "<p>**Insert Bug Graph**</p>"
 
 BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
         % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
