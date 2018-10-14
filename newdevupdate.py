@@ -97,14 +97,14 @@ class Bugs:
         self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
-"""
+
         print("Querying JIRA for Marketplace Bugs...")
-        self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = Unresolved ' \
+        self.marketplace = JQL.search_issues('project = Marketplace AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
+        self.marketplaceclosedlastweek = JQL.search_issues('project = Marketplace AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
-"""
+
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
@@ -132,7 +132,8 @@ class Documentation:
     """ Query JIRA for information on Doc jobs """
     def __init__(self):
         print("Querying JIRA for Documentation issues...")
-        self.newdocs = JQL.search_issues('project = Documentation AND resolved >= -1w AND resolution = Fixed ORDER BY resolutiondate')
+        self.newdocs = JQL.search_issues("project = Documentation AND resolved >= -1w " \
+        + "AND resolution = Fixed ORDER BY resolutiondate", maxResults=200)
 
 
 # Create an email using the assembled information
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     BODY += "<p><br><b>Product Health</b><br>"
     BODY += "<br>**Insert Table**</p><br>"
 
-    BODY += "<p><b>Links</b><ul>"
+    BODY += "<p><b>Links:</b><ul>"
     if BUGS.web or TECHDEBT.web:
         BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % len(BUGS.web)
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web)
@@ -175,7 +176,9 @@ if __name__ == "__main__":
     if BUGS.mobile:
         BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
     if BUGS.cloudadoption:
-        BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
+        BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26355\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
+    if BUGS.marketplace:
+        BODY += "<li>Marketplace - <a href=\"https://jira.starrez.com/issues/?filter=26356\">%s</a> open bugs</li>" % len(BUGS.marketplace)
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
@@ -197,6 +200,8 @@ if __name__ == "__main__":
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
     if BUGS.cloudadoptionclosedlastweek:
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
+    if BUGS.marketplaceclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26354\">%s Marketplace</a>" % len(BUGS.marketplaceclosedlastweek)
     BODY += ")</li></p>"
 
 
