@@ -141,11 +141,14 @@ class Documentation:
         print("Querying JIRA for Documentation issues...")
         self.newdocs = JQL.search_issues('project = Documentation AND resolved >= -1w AND resolution = Fixed ORDER BY resolutiondate')
 
+
+
 ENHANCEMENTS = Enhancements()
 BUGS = Bugs()
 TECHHELP = Techhelp()
 TECHDEBT = TechDebt()
 DOCUMENTATION = Documentation()
+
 
 # Create Email Contents
 print("Generating Email...")
@@ -168,9 +171,10 @@ BODY += "<p>**Insert Bug Graph**</p>"
 BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
         % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
 
-
 BODY += "<p>Done in the last week:</p><ul>"
 
+
+# Show bugs closed in the last week
 BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek)
 if BUGS.portalxclosedlastweek:
     BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
@@ -184,6 +188,8 @@ if BUGS.cloudadoptionclosedlastweek:
     BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
 BODY += ")</li>"
 
+
+# Show Enhancements for each project
 for issue in ENHANCEMENTS.ux:
     BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
     % (issue, issue, issue.fields.summary)
@@ -208,6 +214,7 @@ for issue in ENHANCEMENTS.cloudadoption:
 BODY += "</ul>"
 
 
+# Show any Documentation jobs that have been completed in the last week
 if DOCUMENTATION.newdocs:
     BODY += "<p>New Documents:</p><ul>"
     for issue in DOCUMENTATION.newdocs:
@@ -218,6 +225,7 @@ BODY += "</ul>"
 BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
 
+# Create an email using the assembled information
 def createemail(emailbody):
     """ Sent Email Contents to Outlook """
     olmailitem = 0x0
