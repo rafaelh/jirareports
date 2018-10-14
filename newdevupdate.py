@@ -93,23 +93,6 @@ class Bugs:
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
-
-class PortalX:
-    """ Query JIRA for information on PortalX """
-    def __init__(self):
-        print("Querying JIRA for PortalX issues...")
-        self.techdebt = JQL.search_issues('"Epic Link" = PORTALX-1499 and ' \
-        + 'resolution = Unresolved', maxResults=200)
-
-
-
-class StarRezWeb:
-    """ Query JIRA for information on StarRez Web """
-    def __init__(self):
-        print("Querying JIRA for StarRez Web issues...")
-        self.techdebt = JQL.search_issues('"Epic Link" = WEB-7359 and resolution = ' \
-        + 'Unresolved', maxResults=200)
-
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
@@ -133,96 +116,11 @@ class Techhelp:
         else:
             self.trend = "down"
 
-
-
 class Documentation:
     """ Query JIRA for information on Doc jobs """
     def __init__(self):
         print("Querying JIRA for Documentation issues...")
         self.newdocs = JQL.search_issues('project = Documentation AND resolved >= -1w AND resolution = Fixed ORDER BY resolutiondate')
-
-
-
-ENHANCEMENTS = Enhancements()
-BUGS = Bugs()
-TECHHELP = Techhelp()
-TECHDEBT = TechDebt()
-DOCUMENTATION = Documentation()
-
-
-# Create Email Contents
-print("Generating Email...")
-with open('emailheader.html', 'r') as emailFormat:
-    BODY = emailFormat.read().replace('\n', '')
-
-BODY += "<p><br><b>Product Health</b><br>"
-BODY += "<br><p>**Insert Table**</p><br>"
-
-BODY += "<b>Links</b><br><ul>"
-BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(TECHDEBT.web))
-BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(TECHDEBT.portalx))
-BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
-BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
-BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
-BODY += "</p></ul>"
-
-BODY += "<p>**Insert Bug Graph**</p>"
-
-BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
-        % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
-
-BODY += "<p>Done in the last week:</p><ul>"
-
-
-# Show bugs closed in the last week
-BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek)
-if BUGS.portalxclosedlastweek:
-    BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
-if BUGS.webclosedlastweek:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(BUGS.webclosedlastweek)
-if BUGS.cloudclosedlastweek:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(BUGS.cloudclosedlastweek)
-if BUGS.mobileclosedlastweek:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
-if BUGS.cloudadoptionclosedlastweek:
-    BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
-BODY += ")</li>"
-
-
-# Show Enhancements for each project
-for issue in ENHANCEMENTS.ux:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.mobile:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.portalx:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.web:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.cloud:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.cd:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-for issue in ENHANCEMENTS.cloudadoption:
-    BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-    % (issue, issue, issue.fields.summary)
-BODY += "</ul>"
-
-
-# Show any Documentation jobs that have been completed in the last week
-if DOCUMENTATION.newdocs:
-    BODY += "<p>New Documents:</p><ul>"
-    for issue in DOCUMENTATION.newdocs:
-        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-        % (issue, issue, issue.fields.summary)
-BODY += "</ul>"
-
-BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
 
 # Create an email using the assembled information
@@ -236,4 +134,87 @@ def createemail(emailbody):
     newmail.HTMLBody = emailbody
     newmail.display()
 
-createemail(BODY)
+
+if __name__ == "__main__":
+    ENHANCEMENTS = Enhancements()
+    BUGS = Bugs()
+    TECHHELP = Techhelp()
+    TECHDEBT = TechDebt()
+    DOCUMENTATION = Documentation()
+
+
+    # Create Email Contents
+    print("Generating Email...")
+    with open('emailheader.html', 'r') as emailFormat:
+        BODY = emailFormat.read().replace('\n', '')
+
+    BODY += "<p><br><b>Product Health</b><br>"
+    BODY += "<br><p>**Insert Table**</p><br>"
+
+    BODY += "<b>Links</b><br><ul>"
+    BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(TECHDEBT.web))
+    BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(TECHDEBT.portalx))
+    BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
+    BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
+    BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
+    BODY += "</p></ul>"
+
+    BODY += "<p>**Insert Bug Graph**</p>"
+
+    BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
+        % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
+
+    BODY += "<p>Done in the last week:</p><ul>"
+
+
+    # Show bugs closed in the last week
+    BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek)
+    if BUGS.portalxclosedlastweek:
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
+    if BUGS.webclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(BUGS.webclosedlastweek)
+    if BUGS.cloudclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(BUGS.cloudclosedlastweek)
+    if BUGS.mobileclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
+    if BUGS.cloudadoptionclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
+    BODY += ")</li>"
+
+
+    # Show Enhancements for each project
+    for issue in ENHANCEMENTS.ux:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.mobile:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.portalx:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.web:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.cloud:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.cd:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.cloudadoption:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    BODY += "</ul>"
+
+
+    # Show any Documentation jobs that have been completed in the last week
+    if DOCUMENTATION.newdocs:
+        BODY += "<p>New Documents:</p><ul>"
+        for issue in DOCUMENTATION.newdocs:
+            BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+            % (issue, issue, issue.fields.summary)
+    BODY += "</ul>"
+
+    BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
+
+    createemail(BODY)
