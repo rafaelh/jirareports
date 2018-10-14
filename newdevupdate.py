@@ -97,7 +97,14 @@ class Bugs:
         self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
-
+"""
+        print("Querying JIRA for Marketplace Bugs...")
+        self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+"""
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
@@ -158,12 +165,17 @@ if __name__ == "__main__":
 
     BODY += "<p><b>Links</b><ul>"
     if BUGS.web or TECHDEBT.web:
-        BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % (len(BUGS.web)
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web))
-    BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(TECHDEBT.portalx))
-    BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
-    BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
-    BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
+        BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % len(BUGS.web)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web)
+    if BUGS.portalx or TECHDEBT.portalx:
+        BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, " % len(BUGS.portalx)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.portalx)
+    if BUGS.cloud:
+        BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
+    if BUGS.mobile:
+        BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
+    if BUGS.cloudadoption:
+        BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
