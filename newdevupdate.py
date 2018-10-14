@@ -55,6 +55,11 @@ class Enhancements:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
+        print("Querying JIRA for Marketplace enhancements...")
+        self.marketplace = JQL.search_issues('project = Marketplace AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
     def __init__(self):
@@ -149,10 +154,12 @@ if __name__ == "__main__":
         BODY = emailFormat.read().replace('\n', '')
 
     BODY += "<p><br><b>Product Health</b><br>"
-    BODY += "<br><p>**Insert Table**</p><br>"
+    BODY += "<br>**Insert Table**</p><br>"
 
-    BODY += "<b>Links</b><br><ul>"
-    BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(TECHDEBT.web))
+    BODY += "<p><b>Links</b><ul>"
+    if BUGS.web or TECHDEBT.web:
+        BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % (len(BUGS.web)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web))
     BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(TECHDEBT.portalx))
     BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
     BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
@@ -161,11 +168,10 @@ if __name__ == "__main__":
 
     BODY += "<p>**Insert Bug Graph**</p>"
 
-    BODY += "<p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check<br>" \
+    BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check</p>" \
         % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
 
-    BODY += "<p>Done in the last week:</p><ul>"
-
+    BODY += "<br><p>Done in the last week:<ul>"
 
     # Show bugs closed in the last week
     BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek)
@@ -179,7 +185,7 @@ if __name__ == "__main__":
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
     if BUGS.cloudadoptionclosedlastweek:
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
-    BODY += ")</li>"
+    BODY += ")</li></p>"
 
 
     # Show Enhancements for each project
@@ -204,16 +210,19 @@ if __name__ == "__main__":
     for issue in ENHANCEMENTS.cloudadoption:
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.marketplace:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
     BODY += "</ul>"
 
 
     # Show any Documentation jobs that have been completed in the last week
     if DOCUMENTATION.newdocs:
-        BODY += "<p>New Documents:</p><ul>"
+        BODY += "<p>New Documents:<ul>"
         for issue in DOCUMENTATION.newdocs:
             BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
             % (issue, issue, issue.fields.summary)
-    BODY += "</ul>"
+    BODY += "</ul></p>"
 
     BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
