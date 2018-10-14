@@ -110,6 +110,16 @@ class StarRezWeb:
         self.techdebt = JQL.search_issues('"Epic Link" = WEB-7359 and resolution = ' \
         + 'Unresolved', maxResults=200)
 
+class TechDebt:
+    """ Query JIRA for information on Tech Debt issues """
+    def __init__(self):
+        print("Querying JIRA for PortalX Tech Debt issues...")
+        self.portalx = JQL.search_issues('"Epic Link" = PORTALX-1499 and ' \
+        + 'resolution = Unresolved', maxResults=200)
+
+        print("Querying JIRA for Web Tech Debt issues...")
+        self.web = JQL.search_issues('"Epic Link" = WEB-7359 and resolution = ' \
+        + 'Unresolved', maxResults=200)
 
 class Techhelp:
     """ Query JIRA for information on Techhelps """
@@ -124,6 +134,7 @@ class Techhelp:
             self.trend = "down"
 
 
+
 class Documentation:
     """ Query JIRA for information on Doc jobs """
     def __init__(self):
@@ -132,9 +143,8 @@ class Documentation:
 
 ENHANCEMENTS = Enhancements()
 BUGS = Bugs()
-PORTALX = PortalX()
-WEB = StarRezWeb()
 TECHHELP = Techhelp()
+TECHDEBT = TechDebt()
 DOCUMENTATION = Documentation()
 
 # Create Email Contents
@@ -146,8 +156,8 @@ BODY += "<p><br><b>Product Health</b><br>"
 BODY += "<br><p>**Insert Table**</p><br>"
 
 BODY += "<b>Links</b><br><ul>"
-BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(WEB.techdebt))
-BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(PORTALX.techdebt))
+BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % (len(BUGS.web), len(TECHDEBT.web))
+BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, <a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % (len(BUGS.portalx), len(TECHDEBT.portalx))
 BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
 BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
 BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
