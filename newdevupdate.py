@@ -66,11 +66,15 @@ class Enhancements:
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
         print("Querying JIRA for Enhance enhancements...")
-        self.devops = JQL.search_issues('project = Enhance AND resolved >= -1w ' \
+        self.enhance = JQL.search_issues('project = Enhance AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        # Explore
+        print("Querying JIRA for Explore enhancements...")
+        self.explore = JQL.search_issues('project = Explore AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
         # ValueAdds
         # NewMarkets
 
@@ -130,6 +134,13 @@ class Bugs:
         self.enhance = JQL.search_issues('project = Enhance AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.enhanceclosedlastweek = JQL.search_issues('project = Enhance AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+
+        print("Querying JIRA for Explore Bugs...")
+        self.explore = JQL.search_issues('project = Explore AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.exploreclosedlastweek = JQL.search_issues('project = Explore AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
@@ -212,6 +223,8 @@ if __name__ == "__main__":
         BODY += "<li>DevOps - <a href=\"https://jira.starrez.com/issues/?filter=26358\">%s</a> open bugs</li>" % len(BUGS.devops)
     if BUGS.enhance:
         BODY += "<li>Enhance - <a href=\"https://jira.starrez.com/issues/?filter=26359\">%s</a> open bugs</li>" % len(BUGS.enhance)
+    if BUGS.explore:
+        BODY += "<li>Explore - <a href=\"https://jira.starrez.com/issues/?filter=26362\">%s</a> open bugs</li>" % len(BUGS.explore)
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
@@ -224,7 +237,7 @@ if __name__ == "__main__":
     # Show bugs closed in the last week
     BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek \
     + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek + BUGS.marketplaceclosedlastweek \
-    + BUGS.devopsclosedlastweek + BUGS.enhanceclosedlastweek)
+    + BUGS.devopsclosedlastweek + BUGS.enhanceclosedlastweek + BUGS.exploreclosedlastweek)
 
     if BUGS.portalxclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
@@ -242,6 +255,8 @@ if __name__ == "__main__":
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26357\">%s DevOps</a>" % len(BUGS.devopsclosedlastweek)
     if BUGS.enhanceclosedlastweek:
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Enhance</a>" % len(BUGS.enhanceclosedlastweek)
+    if BUGS.exploreclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a>" % len(BUGS.exploreclosedlastweek)
     BODY += ")</li></p>"
 
 
@@ -271,6 +286,12 @@ if __name__ == "__main__":
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
     for issue in ENHANCEMENTS.devops:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.enhance:
+        BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
+        % (issue, issue, issue.fields.summary)
+    for issue in ENHANCEMENTS.explore:
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
     BODY += "</ul>"
