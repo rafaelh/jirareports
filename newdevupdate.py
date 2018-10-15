@@ -47,8 +47,8 @@ class Enhancements:
         print("Querying JIRA for CD issues...")
         self.cd = JQL.search_issues('project = "Custom Development" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", Sub-Project) AND ' \
-        + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority ' \
-        + 'DESC', maxResults=200)
+        + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority DESC', \
+        maxResults=200)
 
         print("Querying JIRA for Cloud Adoption enhancements...")
         self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolved >= -1w ' \
@@ -158,6 +158,7 @@ class Bugs:
         self.valueaddsclosedlastweek = JQL.search_issues('project = "Value Adds" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.valueaddsfilter = "https://jira.starrez.com/issues/?filter=26364"
 
         print("Querying JIRA for New Markets Bugs...")
         self.newmarkets = JQL.search_issues('project = "New Markets" AND resolution = Unresolved ' \
@@ -254,7 +255,7 @@ if __name__ == "__main__":
     if BUGS.explore:
         BODY += "<li>Explore - <a href=\"https://jira.starrez.com/issues/?filter=26362\">%s</a> open bugs</li>" % len(BUGS.explore)
     if BUGS.valueadds:
-        BODY += "<li>Value Adds - <a href=\"https://jira.starrez.com/issues/?filter=26364\">%s</a> open bugs</li>" % len(BUGS.valueadds)
+        BODY += "<li>Value Adds - <a href=\"%s\">%s</a> open bugs</li>" % (BUGS.valueaddsfilter, len(BUGS.valueadds))
     if BUGS.newmarkets:
         BODY += "<li>New Markets - <a href=\"https://jira.starrez.com/issues/?filter=26366\">%s</a> open bugs</li>" % len(BUGS.newmarkets)
     BODY += "</p></ul>"
