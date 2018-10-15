@@ -60,10 +60,19 @@ class Enhancements:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for DEVOPS enhancements...")
+        print("Querying JIRA for DevOps enhancements...")
         self.devops = JQL.search_issues('project = "Development Ops" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
+        print("Querying JIRA for Enhance enhancements...")
+        self.devops = JQL.search_issues('project = Enhance AND resolved >= -1w ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
+
+        # Explore
+        # ValueAdds
+        # NewMarkets
 
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
@@ -114,6 +123,13 @@ class Bugs:
         self.devops = JQL.search_issues('project = "Development Ops" AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.devopsclosedlastweek = JQL.search_issues('project = "Development Ops" AND ' \
+        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+
+        print("Querying JIRA for Enhance Bugs...")
+        self.enhance = JQL.search_issues('project = Enhance AND resolution = Unresolved ' \
+        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.enhanceclosedlastweek = JQL.search_issues('project = Enhance AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
@@ -194,6 +210,8 @@ if __name__ == "__main__":
         BODY += "<li>Marketplace - <a href=\"https://jira.starrez.com/issues/?filter=26356\">%s</a> open bugs</li>" % len(BUGS.marketplace)
     if BUGS.devops:
         BODY += "<li>DevOps - <a href=\"https://jira.starrez.com/issues/?filter=26358\">%s</a> open bugs</li>" % len(BUGS.devops)
+    if BUGS.enhance:
+        BODY += "<li>Enhance - <a href=\"https://jira.starrez.com/issues/?filter=26359\">%s</a> open bugs</li>" % len(BUGS.enhance)
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
@@ -204,8 +222,10 @@ if __name__ == "__main__":
     BODY += "<br><p>Done in the last week:<ul>"
 
     # Show bugs closed in the last week
-    BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek + BUGS.cloudclosedlastweek \
-                            + BUGS.cloudadoptionclosedlastweek + BUGS.marketplaceclosedlastweek + BUGS.devopsclosedlastweek)
+    BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek \
+    + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek + BUGS.marketplaceclosedlastweek \
+    + BUGS.devopsclosedlastweek + BUGS.enhanceclosedlastweek)
+
     if BUGS.portalxclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
     if BUGS.webclosedlastweek:
@@ -219,7 +239,9 @@ if __name__ == "__main__":
     if BUGS.marketplaceclosedlastweek:
         BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26354\">%s Marketplace</a>" % len(BUGS.marketplaceclosedlastweek)
     if BUGS.devopsclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26357\">%s Marketplace</a>" % len(BUGS.devopsclosedlastweek)
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26357\">%s DevOps</a>" % len(BUGS.devopsclosedlastweek)
+    if BUGS.enhanceclosedlastweek:
+        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Enhance</a>" % len(BUGS.enhanceclosedlastweek)
     BODY += ")</li></p>"
 
 
