@@ -109,6 +109,7 @@ class Bugs:
         self.cloudclosedlastweek = JQL.search_issues('project = Cloud AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.cloudfilter = "https://jira.starrez.com/issues/?filter=23239"
 
         print("Querying JIRA for Mobile Bugs...")
         self.mobile = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
@@ -116,6 +117,7 @@ class Bugs:
         self.mobileclosedlastweek = JQL.search_issues('project = "Mobile Applications" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.mobilefilter = "https://jira.starrez.com/issues/?filter=24815"
 
         print("Querying JIRA for Cloud Adoption Bugs...")
         self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = Unresolved ' \
@@ -123,6 +125,7 @@ class Bugs:
         self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.cloudadoptionfilter = "https://jira.starrez.com/issues/?filter=26355"
 
         print("Querying JIRA for Marketplace Bugs...")
         self.marketplace = JQL.search_issues('project = Marketplace AND resolution = Unresolved ' \
@@ -130,6 +133,7 @@ class Bugs:
         self.marketplaceclosedlastweek = JQL.search_issues('project = Marketplace AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.marketplacefilter = "https://jira.starrez.com/issues/?filter=26356"
 
         print("Querying JIRA for DevOps Bugs...")
         self.devops = JQL.search_issues('project = "Development Ops" AND resolution = Unresolved ' \
@@ -137,6 +141,7 @@ class Bugs:
         self.devopsclosedlastweek = JQL.search_issues('project = "Development Ops" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.devopsfilter = "https://jira.starrez.com/issues/?filter=26358"
 
         print("Querying JIRA for Enhance Bugs...")
         self.enhance = JQL.search_issues('project = Enhance AND resolution = Unresolved ' \
@@ -144,6 +149,7 @@ class Bugs:
         self.enhanceclosedlastweek = JQL.search_issues('project = Enhance AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.enhancefilter = "https://jira.starrez.com/issues/?filter=26359"
 
         print("Querying JIRA for Explore Bugs...")
         self.explore = JQL.search_issues('project = Explore AND resolution = Unresolved ' \
@@ -151,6 +157,7 @@ class Bugs:
         self.exploreclosedlastweek = JQL.search_issues('project = Explore AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.explorefilter = "https://jira.starrez.com/issues/?filter=26362"
 
         print("Querying JIRA for Value Add Bugs...")
         self.valueadds = JQL.search_issues('project = "Value Adds" AND resolution = Unresolved ' \
@@ -166,6 +173,7 @@ class Bugs:
         self.newmarketsclosedlastweek = JQL.search_issues('project = "New Markets" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
 
         self.total = (len(self.portalx) + len(self.web) + len(self.cloud) + len(self.mobile) \
                      + len(self.cloudadoption) + len(self.marketplace) + len(self.devops) \
@@ -231,7 +239,9 @@ if __name__ == "__main__":
     BODY += "<p><br><b>Product Health</b><br>"
     BODY += "<br>**Insert Table**</p><br>"
 
-    # TODO: create a function that takes bugs, filter, techdebt, etc as parameters, and handles pluralization
+    # TODO: create a function that takes bugs, filter, techdebt, etc as parameters, and handles
+    # pluralization
+
     BODY += "<p><b>Links:</b><ul>"
     BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\">%s</a></li>" % BUGS.total
     if BUGS.web or TECHDEBT.web:
@@ -241,29 +251,37 @@ if __name__ == "__main__":
         BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, " % len(BUGS.portalx)
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.portalx)
     if BUGS.cloud:
-        BODY += "<li>Deployment - <a href=\"https://jira.starrez.com/issues/?filter=23239\">%s</a> open bugs</li>" % len(BUGS.cloud)
+        BODY += "<li>Deployment - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.cloudfilter, len(BUGS.cloud))
     if BUGS.mobile:
-        BODY += "<li>StarRez X - <a href=\"https://jira.starrez.com/issues/?filter=24815\">%s</a> open bugs</li>" % len(BUGS.mobile)
+        BODY += "<li>StarRez X - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.mobilefilter, len(BUGS.mobile))
     if BUGS.cloudadoption:
-        BODY += "<li>Cloud Adoption - <a href=\"https://jira.starrez.com/issues/?filter=26355\">%s</a> open bugs</li>" % len(BUGS.cloudadoption)
+        BODY += "<li>Cloud Adoption - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.cloudadoptionfilter, len(BUGS.cloudadoption))
     if BUGS.marketplace:
-        BODY += "<li>Marketplace - <a href=\"https://jira.starrez.com/issues/?filter=26356\">%s</a> open bugs</li>" % len(BUGS.marketplace)
+        BODY += "<li>Marketplace - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.marketplacefilter, len(BUGS.marketplace))
     if BUGS.devops:
-        BODY += "<li>DevOps - <a href=\"https://jira.starrez.com/issues/?filter=26358\">%s</a> open bugs</li>" % len(BUGS.devops)
+        BODY += "<li>DevOps - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.devopsfilter, len(BUGS.devops))
     if BUGS.enhance:
-        BODY += "<li>Enhance - <a href=\"https://jira.starrez.com/issues/?filter=26359\">%s</a> open bugs</li>" % len(BUGS.enhance)
+        BODY += "<li>Enhance - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.enhancefilter, len(BUGS.enhance))
     if BUGS.explore:
-        BODY += "<li>Explore - <a href=\"https://jira.starrez.com/issues/?filter=26362\">%s</a> open bugs</li>" % len(BUGS.explore)
+        BODY += "<li>Explore - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.explorefilter, len(BUGS.explore))
     if BUGS.valueadds:
-        BODY += "<li>Value Adds - <a href=\"%s\">%s</a> open bugs</li>" % (BUGS.valueaddsfilter, len(BUGS.valueadds))
+        BODY += "<li>Value Adds - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.valueaddsfilter, len(BUGS.valueadds))
     if BUGS.newmarkets:
-        BODY += "<li>New Markets - <a href=\"https://jira.starrez.com/issues/?filter=26366\">%s</a> open bugs</li>" % len(BUGS.newmarkets)
+        BODY += "<li>New Markets - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.newmarketsfilter, len(BUGS.newmarkets))
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
 
-    BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check</p>" \
-        % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
+    BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check</p>" % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
 
     BODY += "<br><p>Done in the last week:<ul>"
 
