@@ -94,14 +94,14 @@ class Bugs:
         + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
         self.portalxclosedlastweek = JQL.search_issues('project = PortalX AND resolved ' \
         + '>= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        + 'resolution not in (duplicate, "No Action Required", "Won\'t Do") and component != "UITest"', maxResults=200)
+        + 'resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
         print("Querying JIRA for Web Bugs...")
         self.web = JQL.search_issues('project = WEB AND resolution = Unresolved ' \
         + ' AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
         self.webclosedlastweek = JQL.search_issues('project = "StarRez Web" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do") and component != "UITest"', maxResults=200)
+        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
         print("Querying JIRA for Cloud Bugs...")
         self.cloud = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
@@ -166,6 +166,11 @@ class Bugs:
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
 
+        self.total = (len(self.portalx) + len(self.web) + len(self.cloud) + len(self.mobile) \
+                     + len(self.cloudadoption) + len(self.marketplace) + len(self.devops) \
+                     + len(self.enhance) + len(self.explore) + len(self.valueadds) \
+                     + len(self.newmarkets))
+
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
@@ -227,6 +232,7 @@ if __name__ == "__main__":
 
     # TODO: create a function that takes bugs, filter, techdebt, etc as parameters, and handles pluralization
     BODY += "<p><b>Links:</b><ul>"
+    BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\">%s</a></li>" % BUGS.total
     if BUGS.web or TECHDEBT.web:
         BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % len(BUGS.web)
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web)
