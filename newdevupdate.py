@@ -103,25 +103,25 @@ class Bugs:
         + 'resolved >= -1w AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', \
         maxResults=200)
 
-        print("Querying JIRA for Cloud Bugs...")
-        self.cloud = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
-        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.cloudclosedlastweek = JQL.search_issues('project = Cloud AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
+        print("Querying JIRA for Deployment Bugs...")
+        self.cloud = JQL.search_issues('project = bug AND resolution = Unresolved ' \
+        + 'AND labels = DeploymentBUG', maxResults=200)
+        self.cloudclosedlastweek = JQL.search_issues('project = bug AND ' \
+        + 'resolved >= -1w AND labels = DeploymentBUG ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.cloudfilter = "https://jira.starrez.com/issues/?filter=23239"
 
         print("Querying JIRA for Mobile Bugs...")
-        self.mobile = JQL.search_issues('project = "Mobile Applications" AND resolution = Unresolved ' \
-        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.mobileclosedlastweek = JQL.search_issues('project = "Mobile Applications" AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.mobile = JQL.search_issues('project = bug AND resolution = Unresolved ' \
+        + 'AND labels = MOBILEBUG', maxResults=200)
+        self.mobileclosedlastweek = JQL.search_issues('project = bug AND resolved >= -1w AND ' \
+        + 'labels = MOBILEBUG AND resolution not in (duplicate, "No Action Required", "Won\'t Do")'\
+        , maxResults=200)
         self.mobilefilter = "https://jira.starrez.com/issues/?filter=24815"
 
         print("Querying JIRA for Cloud Adoption Bugs...")
-        self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = Unresolved ' \
-        + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
+        self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = '
+        + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
