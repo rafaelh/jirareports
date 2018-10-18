@@ -90,18 +90,18 @@ class Bugs:
     """ Query JIRA for information on Bugs in each project """
     def __init__(self):
         print("Querying JIRA for PortalX Bugs...")
-        self.portalx = JQL.search_issues('project = PortalX AND resolution = ' \
-        + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
-        self.portalxclosedlastweek = JQL.search_issues('project = PortalX AND resolved ' \
-        + '>= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        + 'resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.portalx = JQL.search_issues('project = bug AND labels = PortalXBug AND resolution = ' \
+        + 'Unresolved ORDER BY priority DESC', maxResults=200)
+        self.portalxclosedlastweek = JQL.search_issues('project = bug AND labels = PortalXBug ' \
+        + 'AND resolved >= -1w AND resolution not in (duplicate, "No Action Required", ' \
+        + '"Won\'t Do")', maxResults=200)
 
         print("Querying JIRA for Web Bugs...")
-        self.web = JQL.search_issues('project = WEB AND resolution = Unresolved ' \
-        + ' AND type in (Bug, "Testing Bug", "Sub-Task Bug") and component != "UITest"', maxResults=200)
-        self.webclosedlastweek = JQL.search_issues('project = "StarRez Web" AND ' \
-        + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
-        + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
+        self.web = JQL.search_issues('project = bug AND labels = Web_Bug AND resolution = ' \
+        + 'Unresolved ORDER BY priority DESC', maxResults=200)
+        self.webclosedlastweek = JQL.search_issues('project = bug AND labels = Web_Bug and ' \
+        + 'resolved >= -1w AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', \
+        maxResults=200)
 
         print("Querying JIRA for Cloud Bugs...")
         self.cloud = JQL.search_issues('project = Cloud AND resolution = Unresolved ' \
