@@ -175,10 +175,9 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
 
-        self.total = (len(self.portalx) + len(self.web) + len(self.cloud) + len(self.mobile) \
-                     + len(self.cloudadoption) + len(self.marketplace) + len(self.devops) \
-                     + len(self.enhance) + len(self.explore) + len(self.valueadds) \
-                     + len(self.newmarkets))
+        self.total = (len(self.portalx + self.web + self.cloud + self.mobile + self.cloudadoption \
+                     + self.marketplace + self.devops + self.enhance + self.explore \
+                     + self.valueadds + self.newmarkets))
 
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
@@ -286,7 +285,8 @@ if __name__ == "__main__":
 
     BODY += "<p>**Insert Bug Graph**</p>"
 
-    BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, %s from %s at the last check</p>" % (len(TECHHELP.in2weeks), TECHHELP.trend, len(TECHHELP.in3weeks))
+    BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, " % len(TECHHELP.in2weeks)
+    BODY += "%s from %s at the last check</p>" % (TECHHELP.trend, len(TECHHELP.in3weeks))
 
     BODY += "<br><p>Done in the last week:<ul>"
 
