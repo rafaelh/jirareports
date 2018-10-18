@@ -243,13 +243,18 @@ if __name__ == "__main__":
     # pluralization
 
     BODY += "<p><b>Links:</b><ul>"
-    BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\">%s</a></li>" % BUGS.total
+    BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\"" \
+          + ">%s</a></li>" % BUGS.total
     if BUGS.web or TECHDEBT.web:
-        BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">%s</a> open bugs, " % len(BUGS.web)
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web)
+        BODY += "<li>Web - <a href=\"https://jira.starrez.com/issues/?filter=19937\">" \
+              + "%s</a> open bugs, " % len(BUGS.web)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24217\">" \
+              + "%s</a> open Tech Debt issues</li>" % len(TECHDEBT.web)
     if BUGS.portalx or TECHDEBT.portalx:
-        BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">%s</a> open bugs, " % len(BUGS.portalx)
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24218\">%s</a> open Tech Debt issues</li>" % len(TECHDEBT.portalx)
+        BODY += "<li>PortalX - <a href=\"https://jira.starrez.com/issues/?filter=20511\">" \
+              + "%s</a> open bugs, " % len(BUGS.portalx)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24218\">" \
+              + "%s</a> open Tech Debt issues</li>" % len(TECHDEBT.portalx)
     if BUGS.cloud:
         BODY += "<li>Deployment - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.cloudfilter, len(BUGS.cloud))
@@ -292,27 +297,38 @@ if __name__ == "__main__":
     + BUGS.valueaddsclosedlastweek + BUGS.newmarketsclosedlastweek)
 
     if BUGS.portalxclosedlastweek:
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a>" % len(BUGS.portalxclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a> / " % \
+        len(BUGS.portalxclosedlastweek)
     if BUGS.webclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a>" % len(BUGS.webclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22712\">%s Web</a> / " % \
+        len(BUGS.webclosedlastweek)
     if BUGS.cloudclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a>" % len(BUGS.cloudclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24332\">%s Cloud</a> / " % \
+        len(BUGS.cloudclosedlastweek)
     if BUGS.mobileclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a>" % len(BUGS.mobileclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=24823\">%s Mobile</a> / " % \
+        len(BUGS.mobileclosedlastweek)
     if BUGS.cloudadoptionclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26352\">%s Cloud Adoption</a>" % len(BUGS.cloudadoptionclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26352\">" \
+        + "%s Cloud Adoption</a> / " % len(BUGS.cloudadoptionclosedlastweek)
     if BUGS.marketplaceclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26354\">%s Marketplace</a>" % len(BUGS.marketplaceclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26354\">%s Marketplace</a> / " %\
+        len(BUGS.marketplaceclosedlastweek)
     if BUGS.devopsclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26357\">%s DevOps</a>" % len(BUGS.devopsclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26357\">%s DevOps</a> / " % \
+        len(BUGS.devopsclosedlastweek)
     if BUGS.enhanceclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Enhance</a>" % len(BUGS.enhanceclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Enhance</a> / " % \
+        len(BUGS.enhanceclosedlastweek)
     if BUGS.exploreclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a>" % len(BUGS.exploreclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a> / " % \
+        len(BUGS.exploreclosedlastweek)
     if BUGS.valueaddsclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Value Adds</a>" % len(BUGS.valueaddsclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Value Adds</a> / " % \
+        len(BUGS.valueaddsclosedlastweek)
     if BUGS.newmarketsclosedlastweek:
-        BODY += " / <a href=\"https://jira.starrez.com/issues/?filter=26365\">%s New Markets</a>" % len(BUGS.newmarketsclosedlastweek)
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26365\">%s New Markets</a>" % \
+        len(BUGS.newmarketsclosedlastweek)
     BODY += ")</li></p>"
 
 
