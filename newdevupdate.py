@@ -66,7 +66,7 @@ class Enhancements:
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
         print("Querying JIRA for Enhance enhancements...")
-        self.enhance = JQL.search_issues('project = Enhance AND resolved >= -1w ' \
+        self.enhance = JQL.search_issues('project = LUX AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
@@ -80,8 +80,8 @@ class Enhancements:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for New Markets enhancements...")
-        self.newmarkets = JQL.search_issues('project = "New Markets" AND resolved >= -1w ' \
+        print("Querying JIRA for Kraken (New Markets) enhancements...")
+        self.newmarkets = JQL.search_issues('project = Kraken AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
@@ -144,9 +144,9 @@ class Bugs:
         self.devopsfilter = "https://jira.starrez.com/issues/?filter=26358"
 
         print("Querying JIRA for Enhance Bugs...")
-        self.enhance = JQL.search_issues('project = Enhance AND resolution = Unresolved ' \
+        self.enhance = JQL.search_issues('project = LUX AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.enhanceclosedlastweek = JQL.search_issues('project = Enhance AND ' \
+        self.enhanceclosedlastweek = JQL.search_issues('project = LUX AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.enhancefilter = "https://jira.starrez.com/issues/?filter=26359"
@@ -167,10 +167,10 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.valueaddsfilter = "https://jira.starrez.com/issues/?filter=26364"
 
-        print("Querying JIRA for New Markets Bugs...")
-        self.newmarkets = JQL.search_issues('project = "New Markets" AND resolution = Unresolved ' \
+        print("Querying JIRA for Kraken (New Markets) Bugs...")
+        self.newmarkets = JQL.search_issues('project = Kraken AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.newmarketsclosedlastweek = JQL.search_issues('project = "New Markets" AND ' \
+        self.newmarketsclosedlastweek = JQL.search_issues('project = Kraken AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
@@ -270,7 +270,7 @@ if __name__ == "__main__":
         BODY += "<li>DevOps - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.devopsfilter, len(BUGS.devops))
     if BUGS.enhance:
-        BODY += "<li>Enhance - <a href=\"%s\">%s</a> open bugs</li>" % \
+        BODY += "<li>Lux (Enhance) - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.enhancefilter, len(BUGS.enhance))
     if BUGS.explore:
         BODY += "<li>Explore - <a href=\"%s\">%s</a> open bugs</li>" % \
@@ -279,7 +279,7 @@ if __name__ == "__main__":
         BODY += "<li>Value Adds - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.valueaddsfilter, len(BUGS.valueadds))
     if BUGS.newmarkets:
-        BODY += "<li>New Markets - <a href=\"%s\">%s</a> open bugs</li>" % \
+        BODY += "<li>Kraken (New Markets) - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.newmarketsfilter, len(BUGS.newmarkets))
     BODY += "</p></ul>"
 
@@ -318,7 +318,7 @@ if __name__ == "__main__":
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26357\">%s DevOps</a> / " % \
         len(BUGS.devopsclosedlastweek)
     if BUGS.enhanceclosedlastweek:
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Enhance</a> / " % \
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26360\">%s Lux (Enhance)</a> / " % \
         len(BUGS.enhanceclosedlastweek)
     if BUGS.exploreclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a> / " % \
@@ -327,7 +327,7 @@ if __name__ == "__main__":
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Value Adds</a> / " % \
         len(BUGS.valueaddsclosedlastweek)
     if BUGS.newmarketsclosedlastweek:
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26365\">%s New Markets</a>" % \
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26365\">%s Kraken (New Markets)</a>" % \
         len(BUGS.newmarketsclosedlastweek)
     BODY += ")</li></p>"
 
