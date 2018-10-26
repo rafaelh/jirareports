@@ -1,9 +1,11 @@
 """ Creates an update on Development items for the last week """
 
 import datetime
+import sys
 from getpass import getpass
 import win32com.client
-from jira import JIRA
+from jira import JIRA, JIRAError
+
 
 #USERNAME = os.getlogin()
 USERNAME = 'rhart'
@@ -12,17 +14,21 @@ PASSWORD = getpass("JIRA Password: ")
 
 try:
     JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
-except:
-    print("Connection didn't work. Maybe the username or password is wrong?")
+except JIRAError as error:
+    print(error.status_code, error.text)
 
 # Get data from JIRA
 class Enhancements:
     """ Query JIRA for information on enhancements for each project """
     def __init__(self):
         print("Querying JIRA for PortalX enhancements...")
-        self.portalx = JQL.search_issues('project = PortalX AND resolved ' \
-        '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-        'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
+        try:
+            self.portalx = JQL.search_issues('project = PorrtalX AND resolved ' \
+            '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+            'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
+        except JIRAError as error:
+            print("Error:", error.status_code, "-", error.text)
+            sys.exit(1)
 
         print("Querying JIRA for Web enhancements...")
         self.web = JQL.search_issues('project = "StarRez Web" AND resolved' \
@@ -143,7 +149,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.devopsfilter = "https://jira.starrez.com/issues/?filter=26358"
 
-        print("Querying JIRA for Enhance Bugs...")
+        print("Querying JIRA for Lux (Enhance Bugs)...")
         self.enhance = JQL.search_issues('project = LUX AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.enhanceclosedlastweek = JQL.search_issues('project = LUX AND ' \
