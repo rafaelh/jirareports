@@ -15,20 +15,17 @@ PASSWORD = getpass("JIRA Password: ")
 try:
     JQL = JIRA(server=('https://jira.starrez.com'), basic_auth=(USERNAME, PASSWORD))
 except JIRAError as error:
-    print(error.status_code, error.text)
+    print("Error", error.status_code, "-", error.text)
+    sys.exit(1)
 
 # Get data from JIRA
 class Enhancements:
     """ Query JIRA for information on enhancements for each project """
     def __init__(self):
         print("Querying JIRA for PortalX enhancements...")
-        try:
-            self.portalx = JQL.search_issues('project = PorrtalX AND resolved ' \
-            '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
-            'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
-        except JIRAError as error:
-            print("Error:", error.status_code, "-", error.text)
-            sys.exit(1)
+        self.portalx = JQL.search_issues('project = PorrtalX AND resolved ' \
+        '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
 
         print("Querying JIRA for Web enhancements...")
         self.web = JQL.search_issues('project = "StarRez Web" AND resolved' \
@@ -90,7 +87,6 @@ class Enhancements:
         self.newmarkets = JQL.search_issues('project = Kraken AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
-
 
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
