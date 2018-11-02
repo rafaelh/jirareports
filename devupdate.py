@@ -23,7 +23,7 @@ class Enhancements:
     """ Query JIRA for information on enhancements for each project """
     def __init__(self):
         print("Querying JIRA for PortalX enhancements...")
-        self.portalx = JQL.search_issues('project = PorrtalX AND resolved ' \
+        self.portalx = JQL.search_issues('project = PortalX AND resolved ' \
         '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
 
