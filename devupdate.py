@@ -181,6 +181,8 @@ class Bugs:
                      + self.marketplace + self.devops + self.enhance + self.explore \
                      + self.conference + self.newmarkets))
 
+        self.found_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", \"Value Adds\", Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
+
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
@@ -244,6 +246,7 @@ if __name__ == "__main__":
     # pluralization
 
     BODY += "<p><b>Links:</b><ul>"
+    BODY += "<li><b>Bugs found in Production:</b> <a href=\"https://jira.starrez.com/issues/?filter=24355\">%s</a></li>" % BUGS.found_in_production
     BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\"" \
           + ">%s</a></li>" % BUGS.total
     if BUGS.web or TECHDEBT.web:
@@ -286,6 +289,9 @@ if __name__ == "__main__":
     BODY += "</p></ul>"
 
     BODY += "<p>**Insert Bug Graph**</p>"
+
+    BODY += "<p><b>Bugs found in Production:</b><br>
+    BODY += "<p>**Insert Bug in Production Graph**</p>"
 
     BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, " % len(TECHHELP.in2weeks)
     BODY += "%s from %s at the last check</p>" % (TECHHELP.trend, len(TECHHELP.in3weeks))
