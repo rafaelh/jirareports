@@ -79,7 +79,7 @@ class Enhancements:
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
         print("Querying JIRA for ValueAdd enhancements...")
-        self.valueadds = JQL.search_issues('project = "Value Adds" AND resolved >= -1w ' \
+        self.conference = JQL.search_issues('project = "Value Adds" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
@@ -161,13 +161,13 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.explorefilter = "https://jira.starrez.com/issues/?filter=26362"
 
-        print("Querying JIRA for Value Add Bugs...")
-        self.valueadds = JQL.search_issues('project = "Value Adds" AND resolution = Unresolved ' \
+        print("Querying JIRA for Conference Bugs...")
+        self.conference = JQL.search_issues('project = "Value Adds" AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.valueaddsclosedlastweek = JQL.search_issues('project = "Value Adds" AND ' \
+        self.conferenceclosedlastweek = JQL.search_issues('project = "Value Adds" AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
-        self.valueaddsfilter = "https://jira.starrez.com/issues/?filter=26364"
+        self.conferencefilter = "https://jira.starrez.com/issues/?filter=26364"
 
         print("Querying JIRA for Kraken (New Markets) Bugs...")
         self.newmarkets = JQL.search_issues('project = Kraken AND resolution = Unresolved ' \
@@ -179,7 +179,7 @@ class Bugs:
 
         self.total = (len(self.portalx + self.web + self.cloud + self.mobile + self.cloudadoption \
                      + self.marketplace + self.devops + self.enhance + self.explore \
-                     + self.valueadds + self.newmarkets))
+                     + self.conference + self.newmarkets))
 
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
@@ -277,9 +277,9 @@ if __name__ == "__main__":
     if BUGS.explore:
         BODY += "<li>Explore - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.explorefilter, len(BUGS.explore))
-    if BUGS.valueadds:
-        BODY += "<li>Value Adds - <a href=\"%s\">%s</a> open bugs</li>" % \
-        (BUGS.valueaddsfilter, len(BUGS.valueadds))
+    if BUGS.conference:
+        BODY += "<li>Conference - <a href=\"%s\">%s</a> open bugs</li>" % \
+        (BUGS.conferencefilter, len(BUGS.conference))
     if BUGS.newmarkets:
         BODY += "<li>Kraken (New Markets) - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.newmarketsfilter, len(BUGS.newmarkets))
@@ -296,7 +296,7 @@ if __name__ == "__main__":
     BODY += "<li>%s Bugs (" % len(BUGS.portalxclosedlastweek + BUGS.webclosedlastweek \
     + BUGS.cloudclosedlastweek + BUGS.cloudadoptionclosedlastweek + BUGS.marketplaceclosedlastweek \
     + BUGS.devopsclosedlastweek + BUGS.enhanceclosedlastweek + BUGS.exploreclosedlastweek \
-    + BUGS.valueaddsclosedlastweek + BUGS.newmarketsclosedlastweek)
+    + BUGS.conferenceclosedlastweek + BUGS.newmarketsclosedlastweek)
 
     if BUGS.portalxclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=22711\">%s PortalX</a> / " % \
@@ -325,9 +325,9 @@ if __name__ == "__main__":
     if BUGS.exploreclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a> / " % \
         len(BUGS.exploreclosedlastweek)
-    if BUGS.valueaddsclosedlastweek:
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Value Adds</a> / " % \
-        len(BUGS.valueaddsclosedlastweek)
+    if BUGS.conferenceclosedlastweek:
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Conference</a> / " % \
+        len(BUGS.conferenceclosedlastweek)
     if BUGS.newmarketsclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26365\">%s Kraken (New Markets)</a>" % \
         len(BUGS.newmarketsclosedlastweek)
@@ -368,7 +368,7 @@ if __name__ == "__main__":
     for issue in ENHANCEMENTS.explore:
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
-    for issue in ENHANCEMENTS.valueadds:
+    for issue in ENHANCEMENTS.conference:
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
     for issue in ENHANCEMENTS.newmarkets:
