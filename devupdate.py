@@ -177,11 +177,13 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
 
+        print("Querying JIRA for Bugs found in Production...")
+        self.found_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", \"Value Adds\", Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
+
         self.total = (len(self.portalx + self.web + self.cloud + self.mobile + self.cloudadoption \
                      + self.marketplace + self.devops + self.enhance + self.explore \
                      + self.conference + self.newmarkets))
 
-        self.found_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", \"Value Adds\", Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
 
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
@@ -246,7 +248,7 @@ if __name__ == "__main__":
     # pluralization
 
     BODY += "<p><b>Links:</b><ul>"
-    BODY += "<li><b>Bugs found in Production:</b> <a href=\"https://jira.starrez.com/issues/?filter=24355\">%s</a></li>" % BUGS.found_in_production
+    BODY += "<li><b>Bugs found in Production:</b> <a href=\"https://jira.starrez.com/issues/?filter=24355\">%s</a></li>" % len(BUGS.found_in_production)
     BODY += "<li><b>Total Bugs:</b> <a href=\"https://jira.starrez.com/issues/?filter=26367\"" \
           + ">%s</a></li>" % BUGS.total
     if BUGS.web or TECHDEBT.web:
@@ -288,7 +290,7 @@ if __name__ == "__main__":
         (BUGS.newmarketsfilter, len(BUGS.newmarkets))
     BODY += "</p></ul>"
 
-    BODY += "<p>**Insert Bug Graph**</p>"
+    BODY += "<p>**Insert Bug Graph**</p><br><br>"
 
     BODY += "<p><b>Bugs found in Production:</b><br>"
     BODY += "<p>**Insert Bug in Production Graph**</p>"
