@@ -290,7 +290,7 @@ if __name__ == "__main__":
 
     BODY += "<p>**Insert Bug Graph**</p>"
 
-    BODY += "<p><b>Bugs found in Production:</b><br>
+    BODY += "<p><b>Bugs found in Production:</b><br>"
     BODY += "<p>**Insert Bug in Production Graph**</p>"
 
     BODY += "<br><p><b>Techhelps</b> - %s jobs in the last two weeks, " % len(TECHHELP.in2weeks)
