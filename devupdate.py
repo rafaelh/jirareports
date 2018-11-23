@@ -78,8 +78,8 @@ class Enhancements:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for ValueAdd enhancements...")
-        self.conference = JQL.search_issues('project = "Value Adds" AND resolved >= -1w ' \
+        print("Querying JIRA for Polaris (Conference) enhancements...")
+        self.conference = JQL.search_issues('project = Polaris AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
@@ -162,9 +162,9 @@ class Bugs:
         self.explorefilter = "https://jira.starrez.com/issues/?filter=26362"
 
         print("Querying JIRA for Conference Bugs...")
-        self.conference = JQL.search_issues('project = "Value Adds" AND resolution = Unresolved ' \
+        self.conference = JQL.search_issues('project = Polaris AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
-        self.conferenceclosedlastweek = JQL.search_issues('project = "Value Adds" AND ' \
+        self.conferenceclosedlastweek = JQL.search_issues('project = Polaris AND ' \
         + 'resolved >= -1w AND type in (Bug, "Testing Bug", "Sub-Task Bug") ' \
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.conferencefilter = "https://jira.starrez.com/issues/?filter=26364"
@@ -178,7 +178,7 @@ class Bugs:
         self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
 
         print("Querying JIRA for Bugs found in Production...")
-        self.found_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", \"Value Adds\", Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
+        self.found_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", Polaris, Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
 
         self.total = (len(self.portalx + self.web + self.cloud + self.mobile + self.cloudadoption \
                      + self.marketplace + self.devops + self.enhance + self.explore \
@@ -283,7 +283,7 @@ if __name__ == "__main__":
         BODY += "<li>Explore - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.explorefilter, len(BUGS.explore))
     if BUGS.conference:
-        BODY += "<li>Conference - <a href=\"%s\">%s</a> open bugs</li>" % \
+        BODY += "<li>Polaris (Conference) - <a href=\"%s\">%s</a> open bugs</li>" % \
         (BUGS.conferencefilter, len(BUGS.conference))
     if BUGS.newmarkets:
         BODY += "<li>Kraken (New Markets) - <a href=\"%s\">%s</a> open bugs</li>" % \
@@ -334,7 +334,7 @@ if __name__ == "__main__":
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26361\">%s Explore</a> / " % \
         len(BUGS.exploreclosedlastweek)
     if BUGS.conferenceclosedlastweek:
-        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Conference</a> / " % \
+        BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26363\">%s Polaris (Conference)</a> / " % \
         len(BUGS.conferenceclosedlastweek)
     if BUGS.newmarketsclosedlastweek:
         BODY += "<a href=\"https://jira.starrez.com/issues/?filter=26365\">%s Kraken (New Markets)</a>" % \
