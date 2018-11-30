@@ -385,6 +385,7 @@ if __name__ == "__main__":
     BODY += "</ul>"
 
 
+
     # Show any Documentation jobs that have been completed in the last week
     if DOCUMENTATION.newdocs:
         BODY += "<p>New Documents:<ul>"
@@ -395,4 +396,10 @@ if __name__ == "__main__":
 
     BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
+print("Generating HTML...")
+f = open('output.html', 'w')
+f.write(BODY)
+f.close
+
+'''
     createemail(BODY)
