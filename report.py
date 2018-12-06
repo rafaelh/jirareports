@@ -2,6 +2,7 @@
 
 import datetime
 import sys
+import webbrowser
 from getpass import getpass
 import win32com.client
 from jira import JIRA, JIRAError
@@ -23,7 +24,7 @@ BODY = ''
 
 # Create an email using the assembled information
 def createemail(emailbody):
-    """ Sent Email Contents to Outlook """
+    """ Create an email directly in Outlook """
     olmailitem = 0x0
     obj = win32com.client.Dispatch("Outlook.Application")
     newmail = obj.CreateItem(olmailitem)
@@ -32,4 +33,10 @@ def createemail(emailbody):
     newmail.HTMLBody = emailbody
     newmail.display()
 
-def create
+def createhtml(htmlbody):
+    """ Create an HTML page to cut & paste into email """
+    print("Generating HTML...")
+    f = open('output.html', 'w')
+    f.write(BODY)
+    f.close
+    webbrowser.open('output.html')
