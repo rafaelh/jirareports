@@ -2,6 +2,7 @@
 
 import datetime
 import sys
+import webbrowser
 from getpass import getpass
 import win32com.client
 from jira import JIRA, JIRAError
@@ -400,6 +401,7 @@ print("Generating HTML...")
 f = open('output.html', 'w')
 f.write(BODY)
 f.close
+webbrowser.open('output.html')
 
 '''
     createemail(BODY)
