@@ -86,7 +86,7 @@ class Enhancements:
 
         print("Querying JIRA for Kraken (New Markets) enhancements...")
         self.newmarkets = JQL.search_issues('project = Kraken AND resolved >= -1w ' \
-        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
+        + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", "Sub-Task Enhancement") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
 class Bugs:
