@@ -33,14 +33,14 @@ def createhtml(htmlbody):
 
 if __name__ == "__main__":
     #USERNAME = os.getlogin()
-    BODY = ''
-    SERVER = 'https://jira.starrez.com'
+    BODY =     ''
+    SERVER =   'https://jira.starrez.com'
     USERNAME = 'rhart'
     print("JIRA Username: " + USERNAME)
     PASSWORD = getpass("JIRA Password: ")
-
     try:
-        JQL = JIRA(server=(SERVER, basic_auth=(USERNAME, PASSWORD))
+        JQL = JIRA(server=SERVER, basic_auth=(USERNAME, PASSWORD))
     except JIRAError as error:
-        print("Error", error.status_code, "-", error.text)
+        logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
+
