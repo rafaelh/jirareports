@@ -95,21 +95,21 @@ class Enhancements:
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
     def __init__(self):
-        print("Querying JIRA for PortalX Bugs...")
+        logger.info("Querying JIRA for PortalX Bugs")
         self.portalx = JQL.search_issues('project = bug AND labels = PortalXBug AND resolution = ' \
         + 'Unresolved ORDER BY priority DESC', maxResults=200)
         self.portalxclosedlastweek = JQL.search_issues('project = bug AND labels = PortalXBug ' \
         + 'AND resolved >= -1w AND resolution not in (duplicate, "No Action Required", ' \
         + '"Won\'t Do")', maxResults=200)
 
-        print("Querying JIRA for Web Bugs...")
+        logger.info("Querying JIRA for Web Bugs")
         self.web = JQL.search_issues('project = bug AND labels = Web_Bug AND resolution = ' \
         + 'Unresolved ORDER BY priority DESC', maxResults=200)
         self.webclosedlastweek = JQL.search_issues('project = bug AND labels = Web_Bug and ' \
         + 'resolved >= -1w AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', \
         maxResults=200)
 
-        print("Querying JIRA for Deployment Bugs...")
+        logger.info("Querying JIRA for Deployment Bugs")
         self.cloud = JQL.search_issues('project = bug AND resolution = Unresolved ' \
         + 'AND labels = DeploymentBUG', maxResults=200)
         self.cloudclosedlastweek = JQL.search_issues('project = bug AND ' \
@@ -117,7 +117,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.cloudfilter = "https://jira.starrez.com/issues/?filter=23239"
 
-        print("Querying JIRA for Mobile Bugs...")
+        logger.info("Querying JIRA for Mobile Bugs")
         self.mobile = JQL.search_issues('project = bug AND resolution = Unresolved ' \
         + 'AND labels = MOBILEBUG', maxResults=200)
         self.mobileclosedlastweek = JQL.search_issues('project = bug AND resolved >= -1w AND ' \
@@ -125,7 +125,7 @@ class Bugs:
         , maxResults=200)
         self.mobilefilter = "https://jira.starrez.com/issues/?filter=24815"
 
-        print("Querying JIRA for Cloud Adoption Bugs...")
+        logger.info("Querying JIRA for Cloud Adoption Bugs")
         self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolution = '
         + 'Unresolved AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.cloudadoptionclosedlastweek = JQL.search_issues('project = "Cloud Adoption" AND ' \
@@ -133,7 +133,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.cloudadoptionfilter = "https://jira.starrez.com/issues/?filter=26355"
 
-        print("Querying JIRA for Marketplace Bugs...")
+        logger.info("Querying JIRA for Marketplace Bugs")
         self.marketplace = JQL.search_issues('project = Marketplace AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.marketplaceclosedlastweek = JQL.search_issues('project = Marketplace AND ' \
@@ -141,7 +141,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.marketplacefilter = "https://jira.starrez.com/issues/?filter=26356"
 
-        print("Querying JIRA for DevOps Bugs...")
+        logger.info("Querying JIRA for DevOps Bugs")
         self.devops = JQL.search_issues('project = "Development Ops" AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.devopsclosedlastweek = JQL.search_issues('project = "Development Ops" AND ' \
@@ -149,7 +149,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.devopsfilter = "https://jira.starrez.com/issues/?filter=26358"
 
-        print("Querying JIRA for Lux (Enhance Bugs)...")
+        logger.info("Querying JIRA for Lux (Enhance Bugs)")
         self.enhance = JQL.search_issues('project = LUX AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.enhanceclosedlastweek = JQL.search_issues('project = LUX AND ' \
@@ -157,7 +157,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.enhancefilter = "https://jira.starrez.com/issues/?filter=26359"
 
-        print("Querying JIRA for Explore Bugs...")
+        logger.info("Querying JIRA for Explore Bugs")
         self.explore = JQL.search_issues('project = Explore AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.exploreclosedlastweek = JQL.search_issues('project = Explore AND ' \
@@ -165,7 +165,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.explorefilter = "https://jira.starrez.com/issues/?filter=26362"
 
-        print("Querying JIRA for Conference Bugs...")
+        logger.info("Querying JIRA for Conference Bugs")
         self.conference = JQL.search_issues('project = Polaris AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.conferenceclosedlastweek = JQL.search_issues('project = Polaris AND ' \
@@ -173,7 +173,7 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.conferencefilter = "https://jira.starrez.com/issues/?filter=26364"
 
-        print("Querying JIRA for Kraken (New Markets) Bugs...")
+        logger.info("Querying JIRA for Kraken (New Markets) Bugs")
         self.newmarkets = JQL.search_issues('project = Kraken AND resolution = Unresolved ' \
         + 'AND type in (Bug, "Testing Bug", "Sub-Task Bug")', maxResults=200)
         self.newmarketsclosedlastweek = JQL.search_issues('project = Kraken AND ' \
@@ -181,29 +181,30 @@ class Bugs:
         + 'AND resolution not in (duplicate, "No Action Required", "Won\'t Do")', maxResults=200)
         self.newmarketsfilter = "https://jira.starrez.com/issues/?filter=26366"
 
-        print("Querying JIRA for Bugs experienced in Production...")
+        logger.info("Querying JIRA for Bugs experienced in Production")
         self.experienced_in_production = JQL.search_issues("project in (Bug, \"Cloud Adoption\", LUX, Explore, Kraken, \"Mobile Applications\", Polaris, Marketplace, \"Development Ops\") AND createdDate >= startOfWeek() AND createdDate <= endofWeek() AND issueFunction in linkedIssuesOf(\"project = techhelp\") AND type = bug", maxResults=200)
 
         self.total = (len(self.portalx + self.web + self.cloud + self.mobile + self.cloudadoption \
                      + self.marketplace + self.devops + self.enhance + self.explore \
                      + self.conference + self.newmarkets))
 
-
+@logger.catch
 class TechDebt:
     """ Query JIRA for information on Tech Debt issues """
     def __init__(self):
-        print("Querying JIRA for PortalX Tech Debt issues...")
+        logger.info("Querying JIRA for PortalX Tech Debt issues")
         self.portalx = JQL.search_issues('"Epic Link" = PORTALX-1499 and ' \
         + 'resolution = Unresolved', maxResults=200)
 
-        print("Querying JIRA for Web Tech Debt issues...")
+        logger.info("Querying JIRA for Web Tech Debt issues")
         self.web = JQL.search_issues('"Epic Link" = WEB-7359 and resolution = ' \
         + 'Unresolved', maxResults=200)
 
+@logger.catch
 class Techhelp:
     """ Query JIRA for information on Techhelps """
     def __init__(self):
-        print("Querying JIRA for Techhelp issues...")
+        logger.info("Querying JIRA for Techhelp issues")
         self.in2weeks = JQL.search_issues('project = tech and createdDate >= -2w', maxResults=200)
         self.in3weeks = JQL.search_issues('project = TECH AND created >= -3w AND ' \
         + 'created <= -1w', maxResults=200)
@@ -212,10 +213,11 @@ class Techhelp:
         else:
             self.trend = "down"
 
+@logger.catch
 class Documentation:
     """ Query JIRA for information on Doc jobs """
     def __init__(self):
-        print("Querying JIRA for Documentation issues...")
+        logger.info("Querying JIRA for Documentation issues...")
         self.newdocs = JQL.search_issues("project = Documentation AND resolved >= -1w " \
         + "AND resolution = Fixed ORDER BY resolutiondate", maxResults=200)
 
@@ -241,7 +243,7 @@ if __name__ == "__main__":
 
 
     # Create Email Contents
-    print("Generating Email...")
+    logger.info("Generating Email")
     with open('emailheader.html', 'r') as emailFormat:
         BODY = emailFormat.read().replace('\n', '')
 
@@ -400,7 +402,7 @@ if __name__ == "__main__":
 
     BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 
-print("Generating HTML...")
+logger.info("Generating HTML")
 f = open('output.html', 'w')
 f.write(BODY)
 f.close
