@@ -30,63 +30,63 @@ class Enhancements:
         '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Web enhancements...")
+        logger.info("Querying JIRA for Web enhancements")
         self.web = JQL.search_issues('project = "StarRez Web" AND resolved' \
         + ' >= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Deployment enhancements...")
+        logger.info("Querying JIRA for Deployment enhancements")
         self.cloud = JQL.search_issues('project = Cloud AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Mobile enhancements...")
+        logger.info("Querying JIRA for Mobile enhancements")
         self.mobile = JQL.search_issues('project = "Mobile Applications" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for UX enhancements...")
+        logger.info("Querying JIRA for UX enhancements")
         self.ux = JQL.search_issues('project = UX AND resolved >= -1w AND type ' \
         + 'not in (Epic) and resolution not in (\"Couldn\'t Solve\", \"No Action ' \
         + 'Required\", \"Won\'t Do\")', maxResults=200)
 
-        print("Querying JIRA for CD issues...")
+        logger.info("Querying JIRA for CD issues")
         self.cd = JQL.search_issues('project = "Custom Development" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", Sub-Project) AND ' \
         + 'resolution in (Done, Fixed) and developer is not EMPTY ORDER BY priority DESC', \
         maxResults=200)
 
-        print("Querying JIRA for Cloud Adoption enhancements...")
+        logger.info("Querying JIRA for Cloud Adoption enhancements")
         self.cloudadoption = JQL.search_issues('project = "Cloud Adoption" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Marketplace enhancements...")
+        logger.info("Querying JIRA for Marketplace enhancements")
         self.marketplace = JQL.search_issues('project = Marketplace AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for DevOps enhancements...")
+        logger.info("Querying JIRA for DevOps enhancements")
         self.devops = JQL.search_issues('project = "Development Ops" AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Enhance enhancements...")
+        logger.info("Querying JIRA for Enhance enhancements")
         self.enhance = JQL.search_issues('project = LUX AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Explore enhancements...")
+        logger.info("Querying JIRA for Explore enhancements")
         self.explore = JQL.search_issues('project = Explore AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Polaris (Conference) enhancements...")
+        logger.info("Querying JIRA for Polaris (Conference) enhancements")
         self.conference = JQL.search_issues('project = Polaris AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
-        print("Querying JIRA for Kraken (New Markets) enhancements...")
+        logger.info("Querying JIRA for Kraken (New Markets) enhancements")
         self.newmarkets = JQL.search_issues('project = Kraken AND resolved >= -1w ' \
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", "Sub-Task Enhancement") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
