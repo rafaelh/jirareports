@@ -4,8 +4,10 @@ import datetime
 import sys
 import webbrowser
 from getpass import getpass
+from loguru import logger
 import win32com.client
 from jira import JIRA, JIRAError
+
 
 
 #USERNAME = os.getlogin()
@@ -19,11 +21,11 @@ except JIRAError as error:
     print("Error", error.status_code, "-", error.text)
     sys.exit(1)
 
-# Get data from JIRA
+@logger.catch
 class Enhancements:
     """ Query JIRA for information on enhancements for each project """
     def __init__(self):
-        print("Querying JIRA for PortalX enhancements...")
+        logger.info("Querying JIRA for PortalX enhancements")
         self.portalx = JQL.search_issues('project = PortalX AND resolved ' \
         '>= -1w AND type not in (Bug, "Testing Bug", "Sub-Task Bug") AND ' \
         'resolution in (Fixed, Done) ORDER BY priority DESC', maxResults=200)
@@ -89,6 +91,7 @@ class Enhancements:
         + 'AND type not in (Bug, "Testing Bug", "Sub-Task Bug", "Sub-Task Enhancement") AND ' \
         + 'resolution in (Done, Fixed) ORDER BY priority DESC', maxResults=200)
 
+@logger.catch
 class Bugs:
     """ Query JIRA for information on Bugs in each project """
     def __init__(self):
