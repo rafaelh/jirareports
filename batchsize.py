@@ -1,9 +1,11 @@
-# Requires pypiwin32 and jira
+""" Script for reporting out of JIRA. """
 
+from loguru import logger
 from getpass import getpass
 from jira import JIRA
 import datetime
 
+@logger.catch
 def getpassword():
     """ Get JIRA password, so we aren't hardcoding it """
     password = getpass("JIRA Password: ")
