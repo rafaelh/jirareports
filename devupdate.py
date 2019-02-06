@@ -9,7 +9,6 @@ import win32com.client
 from jira import JIRA, JIRAError
 
 
-
 #USERNAME = os.getlogin()
 USERNAME = 'rhart'
 print("JIRA Username: " + USERNAME)
@@ -213,15 +212,6 @@ class Techhelp:
         else:
             self.trend = "down"
 
-@logger.catch
-class Documentation:
-    """ Query JIRA for information on Doc jobs """
-    def __init__(self):
-        logger.info("Querying JIRA for Documentation issues...")
-        self.newdocs = JQL.search_issues("project = Documentation AND resolved >= -1w " \
-        + "AND resolution = Fixed ORDER BY resolutiondate", maxResults=200)
-
-
 # Create an email using the assembled information
 def createemail(emailbody):
     """ Sent Email Contents to Outlook """
@@ -239,7 +229,6 @@ if __name__ == "__main__":
     BUGS = Bugs()
     TECHHELP = Techhelp()
     TECHDEBT = TechDebt()
-    DOCUMENTATION = Documentation()
 
 
     # Create Email Contents
@@ -389,16 +378,6 @@ if __name__ == "__main__":
         BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
         % (issue, issue, issue.fields.summary)
     BODY += "</ul>"
-
-
-
-    # Show any Documentation jobs that have been completed in the last week
-    if DOCUMENTATION.newdocs:
-        BODY += "<p>New Documents:<ul>"
-        for issue in DOCUMENTATION.newdocs:
-            BODY += "<li><a href=\"https://jira.starrez.com/browse/%s\">%s</a> - %s</li>" \
-            % (issue, issue, issue.fields.summary)
-    BODY += "</ul></p>"
 
     BODY += "<p>Thanks,<br><br>Rafe<br></p></body></html>"
 

@@ -3,8 +3,8 @@
 import datetime
 import sys
 import webbrowser
-from loguru import logger
 from getpass import getpass
+from loguru import logger
 from jira import JIRA, JIRAError
 import win32com.client
 
@@ -25,16 +25,16 @@ def createemail(emailbody):
 def createhtml(htmlbody):
     """ Create an HTML page to cut & paste into email """
     logger.info("Generating HTML")
-    f = open('output.html', 'w')
-    f.write(BODY)
-    f.close
+    file = open('output.html', 'w')
+    file.write(BODY)
+    file.close
     webbrowser.open('output.html')
 
 
 if __name__ == "__main__":
     #USERNAME = os.getlogin()
-    BODY =     ''
-    SERVER =   'https://jira.starrez.com'
+    BODY = ''
+    SERVER = 'https://jira.starrez.com'
     USERNAME = 'rhart'
     print("JIRA Username: " + USERNAME)
     PASSWORD = getpass("JIRA Password: ")
@@ -43,4 +43,3 @@ if __name__ == "__main__":
     except JIRAError as error:
         logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
-
