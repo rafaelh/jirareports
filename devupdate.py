@@ -239,7 +239,7 @@ if __name__ == "__main__":
     BODY += "<p><br><b>Product Health</b><br>"
     BODY += "<br>**Insert Table**</p><br>"
 
-    # TODO: create a function that takes bugs, filter, techdebt, etc as parameters, and handles
+    # TO DO: create a function that takes bugs, filter, techdebt, etc as parameters, and handles
     # pluralization
 
     BODY += "<p><b>Links:</b><ul>"
