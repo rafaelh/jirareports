@@ -6,20 +6,7 @@ import webbrowser
 from getpass import getpass
 from loguru import logger
 from jira import JIRA, JIRAError
-import win32com.client
 
-
-@logger.catch
-def createemail(emailbody):
-    """ Create an email directly in Outlook """
-    logger.info("Generating Email")
-    olmailitem = 0x0
-    obj = win32com.client.Dispatch("Outlook.Application")
-    newmail = obj.CreateItem(olmailitem)
-    today = datetime.date.today()
-    newmail.Subject = today.strftime("Development Update - %d %b %Y")
-    newmail.HTMLBody = emailbody
-    newmail.display()
 
 @logger.catch
 def createhtml(htmlbody):
