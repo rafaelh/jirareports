@@ -3,6 +3,7 @@
 
 import sys
 import jira
+import datetime
 from getpass import getpass
 from loguru import logger
 
@@ -19,22 +20,35 @@ def main():
         logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
 
-    # Get team member information
-    team = ['rhart', 'rklemm']
+    # Time wangling
+    month = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
 
+    # Get team member information
+    teamName = "platforms"
+    team = ['rhart', 'rklemm', 'shooper']
+    hoursPerDay = 7.6
+    print("\n\nTeam name: " + teamName)
+    print("Month: " + month.strftime("%d/%m/%Y"))
+    print("Weekdays in month: ")
+    print("Less Public Holidays: ")
+    print("Hours per day: " + str(hoursPerDay))
+    print("Headcount: " + str(len(team)))
+
+    totalTeamTime = 0
     for teammember in team:
-        print("====== " + teammember + "======")
+        #print("\n====== " + teammember + "======")
         alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
         totaltime = 0
         for issue in alljobs:
             totaltime += issue.fields.timespent
-        print("Total time (hours):", round(totaltime/3600, 2), " (minutes): ", totaltime/60, " (seconds): ", totaltime)
+            totalTeamTime += issue.fields.timespent
+        #print("Total time (hours):", round(totaltime/3600, 2), " (minutes): ", totaltime/60, " (seconds): ", totaltime)
 
-        print("Jobs worked on: ")
-        for issue in alljobs:
-            print(issue, "-", issue.fields.summary, " - ", round(issue.fields.timespent/3600, 2), "hrs")
-
+        #print("Jobs worked on: ")
+        #for issue in alljobs:
+        #    print(issue, "-", issue.fields.summary, " - ", round(issue.fields.timespent/3600, 2), "hrs")
+    print("Hours Logged in Jira: " + str(totalTeamTime/3600))
 
 if __name__ == '__main__':
     main()
