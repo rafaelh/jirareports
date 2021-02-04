@@ -4,6 +4,7 @@
 import sys
 import jira
 import datetime
+import xlsxwriter
 from getpass import getpass
 from loguru import logger
 
@@ -22,6 +23,12 @@ def main():
 
     # Time wangling
     month = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
+
+    # Set output file
+    workbook = xlsxwriter.Workbook(month.strftime("%Y-%m" + "- hours.xlsx"))
+    worksheet = workbook.add_worksheet()
+    worksheet.write('A1', 'Hello world')
+    workbook.close()
 
     # Get team member information
     teamName = "platforms"
