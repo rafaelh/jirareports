@@ -50,6 +50,8 @@ def main():
         print("💥 A previous excel file exists - this can cause formatting errors")
     workbook = xlsxwriter.Workbook(filename)
     bold = workbook.add_format({'bold': True})
+    percentage = workbook.add_format()
+    percentage.set_num_format('0.00%')
 
     # Summary page
     worksheet1 = workbook.add_worksheet('Summary')
@@ -76,6 +78,8 @@ def main():
         worksheet1.write(row, col, metric)
         worksheet1.write(row, col + 1, value)
         row += 1
+    worksheet1.write(row, col, "% Hours Logged")
+    worksheet1.write(row, col + 1, '=B10/B9', percentage)
 
     # Detail page
     worksheet2 = workbook.add_worksheet('Detail')
