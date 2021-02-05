@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 ''' Script to get last month's hours and work for a set of team members '''
 
+import os
 import sys
 import jira
 import datetime
@@ -44,7 +45,10 @@ def main():
     print("🕑 Hours Logged in JIRA: ", totalTeamTime/3600, "\n")
 
     # Create an excel file
-    workbook = xlsxwriter.Workbook(lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
+    filename = lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx")
+    if os.path.exists(filename):
+        print("💥 A previous excel file exists - this can cause formatting errors")
+    workbook = xlsxwriter.Workbook(filename)
     bold = workbook.add_format({'bold': True})
 
     # Summary page
@@ -97,9 +101,9 @@ def main():
             row += 1
         row += 1
 
-    # Write the Excel file out
+    # Write the Excel file
     workbook.close()
-    print("\nExcel file written as: " + workbook + "\n")
+    print("\n🧮 Excel file written as: " + filename + "\n")
 
 
 if __name__ == '__main__':
