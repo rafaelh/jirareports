@@ -35,14 +35,15 @@ def main():
     for teammember in team:
         alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
-        teammembertotaltime = 0
+        teammembertotaltime = 0 # All an individual's time logged on jobs (regardless of type)
         for issue in alljobs:
             teammembertotaltime += issue.fields.timespent
-            totalTeamTime += issue.fields.timespent
             if 'BUG' in str(issue.key):
-                totalBugTime += issue.fields.timespent
-            if 'TECHHELP' in str(issue.key):
-                totalTechTime += issue.fields.timespent
+                totalBugTime += issue.fields.timespent  # Time on bugs doesn't add to team total
+            elif 'TECHHELP' in str(issue.key):
+                totalTechTime += issue.fields.timespent # Time on Techhelps doesn't add to total
+            else:
+                totalTeamTime += issue.fields.timespent # All other issues add to total time
 
     # Print to screen
     print("\n💻 Team name:            ", teamName)
@@ -79,7 +80,9 @@ def main():
         ['Hours per Day', hoursPerDay],
         ['Headcount (from last day of previous month)', len(team)],
         ['Total Working Hours', '=B6*B7*B8'],
-        ['Hours Logged in JIRA', totalTeamTime/3600],
+        ['Hours Logged in JIRA (Total)', totalTeamTime/3600],
+        ['Hours Logged on BUGs', totalBugTime/3600],
+        ['Hours Logged on TECHHELPs', totalTechTime/3600]
     )
     worksheet1.write(row, col, "Metric", bold)
     worksheet1.write(row, col + 1, "Value", bold)
