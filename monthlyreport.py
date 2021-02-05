@@ -22,7 +22,7 @@ def main():
         sys.exit(1)
 
     # Manually set variables
-    teamName = "platforms"
+    teamName = "Platforms"
     team = ['rhart', 'rklemm', 'shooper']
     hoursPerDay = 7.6
 
@@ -48,17 +48,16 @@ def main():
     bold = workbook.add_format({'bold': True})
 
     # Summary page
-    worksheet = workbook.add_worksheet('Summary')
-    worksheet.set_column('A:A', 40)
-    worksheet.set_column('B:B', 10)
+    worksheet1 = workbook.add_worksheet('Summary')
+    worksheet1.set_column('A:A', 40)
+    worksheet1.set_column('B:B', 10)
     row = 0
     col = 0
     data = (
-        ['Metric', 'Value'],
         ['Team name', teamName],
         ['Month', lastmonth.strftime("%d/%m/%Y")],
         ['Weekdays in month', '=NETWORKDAYS(DATE(YEAR($B$3),MONTH($B$3),1),$B$3)'],
-        ['Less Public Holidays', '0'],
+        ['Less Public Holidays', 0],
         ['Equals Total Working Days', '=B4-B5'],
         ['Hours per Day', hoursPerDay],
         ['Headcount (from last day of previous month)', len(team)],
@@ -66,16 +65,19 @@ def main():
         ['Hours Logged in JIRA', totalTeamTime/3600],
         ['% Hours Logged', '=B10/B9']
     )
+    worksheet1.write(row, col, "Metric", bold)
+    worksheet1.write(row, col + 1, "Value", bold)
+    row += 1
     for metric, value in (data):
-        worksheet.write(row, col, metric)
-        worksheet.write(row, col + 1, value)
+        worksheet1.write(row, col, metric)
+        worksheet1.write(row, col + 1, value)
         row += 1
 
     # Detail page
     worksheet2 = workbook.add_worksheet('Detail')
-    worksheet2.set_column('A:A', 10)
-    worksheet2.set_column('B:B', 60)
-    worksheet2.set_column('C:C', 5)
+    worksheet2.set_column('A:A', 13)
+    worksheet2.set_column('B:B', 80)
+    worksheet2.set_column('C:C', 7)
     row = 0
     col = 0
     for teammember in team:
@@ -97,6 +99,7 @@ def main():
 
     # Write the Excel file out
     workbook.close()
+    print("\nExcel file written as: " + workbook + "\n")
 
 
 if __name__ == '__main__':
