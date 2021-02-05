@@ -33,7 +33,8 @@ def main():
     totalBugTime = 0
     totalTechTime = 0
     for teammember in team:
-        alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
+        alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= ' \
+        'startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
         teammembertotaltime = 0 # All an individual's time logged on jobs (regardless of type)
         for issue in alljobs:
@@ -102,7 +103,8 @@ def main():
     row = 0
     col = 0
     for teammember in team:
-        alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
+        alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= ' \
+        'startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
         for issue in alljobs:
             teammembertotaltime += issue.fields.timespent
 
