@@ -35,20 +35,15 @@ def main():
         #print("\n====== " + teammember + "======")
         alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
-        totaltime = 0
+        teammembertotaltime = 0
         for issue in alljobs:
-            totaltime += issue.fields.timespent
+            teammembertotaltime += issue.fields.timespent
             totalTeamTime += issue.fields.timespent
         #print("Total time (hours):", round(totaltime/3600, 2), " (minutes): ", totaltime/60, " (seconds): ", totaltime)
 
         #print("Jobs worked on: ")
         #for issue in alljobs:
         #    print(issue, "-", issue.fields.summary, " - ", round(issue.fields.timespent/3600, 2), "hrs")
-    print("Hours Logged in Jira: " + str(totalTeamTime/3600))
-
-    # Set output file
-    workbook = xlsxwriter.Workbook(lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
-    worksheet = workbook.add_worksheet()
 
     data = (
         ['','Metric', 'Value'],
@@ -66,16 +61,38 @@ def main():
 
     # Print to screen
     for emoji, metric, value in (data):
-        if not '=' in value:
-            print(emoji, metric, ": ", value)
+        print(emoji, metric, ": ", value)
 
     # Write summary to Excel file
+    workbook = xlsxwriter.Workbook(lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
+    worksheet = workbook.add_worksheet('Summary')
     row = 0
     col = 0
     for emoji, metric, value in (data):
         worksheet.write(row, col, metric)
         worksheet.write(row, col + 1, value)
         row += 1
+
+    worksheet = workbook.add_worksheet('Detail')
+    row = 0
+    col = 0
+    for teammember in team:
+        worksheet.write(row, col, teammember); row += 1
+        alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
+
+        #teammembertotaltime = 0
+        #for issue in alljobs:
+        #    teammembertotaltime += issue.fields.timespent
+        #print("Total time (hours):", round(totaltime/3600, 2), " (minutes): ", totaltime/60, " (seconds): ", totaltime)
+
+        #print("Jobs worked on: ")
+        for issue in alljobs:
+            worksheet.write(row, col, str(issue))
+            worksheet.write(row, col + 1, str(issue.fields.summary))
+            worksheet.write(row, col + 2, round(issue.fields.timespent/3600, 2))
+            row += 1
+        row += 1
+
     workbook.close()
 
 
