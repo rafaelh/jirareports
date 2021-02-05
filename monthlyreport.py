@@ -21,19 +21,14 @@ def main():
         logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
 
-    # Time wangling
-    month = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
+    # Get last month
+    lastmonth = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
 
     # Get team member information
     teamName = "platforms"
     team = ['rhart', 'rklemm', 'shooper']
     hoursPerDay = 7.6
-    print("\n\nTeam name: " + teamName)
-    print("Month: " + month.strftime("%d/%m/%Y"))
-    print("Weekdays in month: ")
-    print("Less Public Holidays: ")
-    print("Hours per day: " + str(hoursPerDay))
-    print("Headcount: " + str(len(team)))
+
 
     totalTeamTime = 0
     for teammember in team:
@@ -52,13 +47,13 @@ def main():
     print("Hours Logged in Jira: " + str(totalTeamTime/3600))
 
     # Set output file
-    workbook = xlsxwriter.Workbook(month.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
+    workbook = xlsxwriter.Workbook(lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
     worksheet = workbook.add_worksheet()
 
     data = (
         ['','Metric', 'Value'],
         ['💻', 'Team name', teamName],
-        ['📅', 'Month', month.strftime("%d/%m/%Y")],
+        ['📅', 'Month', lastmonth.strftime("%d/%m/%Y")],
         ['📅', 'Weekdays in month', '=NETWORKDAYS(DATE(YEAR($B$3),MONTH($B$3),1),$B$3)'],
         ['📅', 'Less Public Holidays', '0'],
         ['📅', 'Equals Total Working Days', '=B4-B5'],
@@ -71,8 +66,10 @@ def main():
 
     # Print to screen
     for emoji, metric, value in (data):
-        print(emoji, metric, ": ", value)
+        if not '=' in value:
+            print(emoji, metric, ": ", value)
 
+    # Write summary to Excel file
     row = 0
     col = 0
     for emoji, metric, value in (data):
