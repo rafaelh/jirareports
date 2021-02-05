@@ -11,9 +11,14 @@ from loguru import logger
 
 @logger.catch
 def main():
+    # Manually set variables
+    jirausername = 'rhart'
+    teamName = "Platforms"
+    team = ['rhart', 'rklemm', 'shooper']
+    hoursPerDay = 7.6
+
     # Connect to JIRA
     jiraserver = 'https://jira.starrez.com'
-    jirausername = 'rhart'
     print("JIRA Username: " + jirausername)
     jirapassword = getpass("JIRA Password: ")
     try:
@@ -22,14 +27,11 @@ def main():
         logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
 
-    # Manually set variables
-    teamName = "Platforms"
-    team = ['rhart', 'rklemm', 'shooper']
-    hoursPerDay = 7.6
-
-    # Get team member information
+    # Get totals
     lastmonth = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
     totalTeamTime = 0
+    totalBugTime = 0
+    totalTechTime = 0
     for teammember in team:
         alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
@@ -37,12 +39,18 @@ def main():
         for issue in alljobs:
             teammembertotaltime += issue.fields.timespent
             totalTeamTime += issue.fields.timespent
+            if 'BUG' in str(issue.key):
+                totalBugTime += issue.fields.timespent
+            if 'TECHHELP' in str(issue.key):
+                totalTechTime += issue.fields.timespent
 
     # Print to screen
     print("\n💻 Team name:            ", teamName)
     print("📅 Month:                ", lastmonth.strftime("%d/%m/%Y"))
     print("🤼 Headcount:            ", len(team))
-    print("🕑 Hours Logged in JIRA: ", totalTeamTime/3600, "\n")
+    print("🕑 Hours Logged in JIRA: ", totalTeamTime/3600)
+    print("🐛 Hours on BUGs:        ", totalBugTime/3600)
+    print("🔧 Hours on TECHHELPs:   ", totalTechTime/3600, "\n")
 
     # Create an excel file
     filename = lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx")
@@ -52,6 +60,9 @@ def main():
     bold = workbook.add_format({'bold': True})
     percentage = workbook.add_format()
     percentage.set_num_format('0.00%')
+    percentage.set_align('left')
+    aligncenter = workbook.add_format()
+    aligncenter.set_align('left')
 
     # Summary page
     worksheet1 = workbook.add_worksheet('Summary')
@@ -69,14 +80,13 @@ def main():
         ['Headcount (from last day of previous month)', len(team)],
         ['Total Working Hours', '=B6*B7*B8'],
         ['Hours Logged in JIRA', totalTeamTime/3600],
-        ['% Hours Logged', '=B10/B9']
     )
     worksheet1.write(row, col, "Metric", bold)
     worksheet1.write(row, col + 1, "Value", bold)
     row += 1
     for metric, value in (data):
         worksheet1.write(row, col, metric)
-        worksheet1.write(row, col + 1, value)
+        worksheet1.write(row, col + 1, value, aligncenter)
         row += 1
     worksheet1.write(row, col, "% Hours Logged")
     worksheet1.write(row, col + 1, '=B10/B9', percentage)
