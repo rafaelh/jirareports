@@ -21,30 +21,21 @@ def main():
         logger.error("Error", error.status_code, "-", error.text)
         sys.exit(1)
 
-    # Get last month
-    lastmonth = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
-
-    # Get team member information
+    # Manually set variables
     teamName = "platforms"
     team = ['rhart', 'rklemm', 'shooper']
     hoursPerDay = 7.6
 
-
+    # Get team member information
+    lastmonth = datetime.date.today().replace(day=1) - datetime.timedelta(days=1)
     totalTeamTime = 0
     for teammember in team:
-        #print("\n====== " + teammember + "======")
         alljobs = JQL.search_issues('worklogAuthor = ' + teammember + ' and worklogDate >= startOfMonth(-1) and worklogDate <= endOfMonth(-1)', maxResults=200)
 
         teammembertotaltime = 0
         for issue in alljobs:
             teammembertotaltime += issue.fields.timespent
             totalTeamTime += issue.fields.timespent
-        #print("Total time (hours):", round(totaltime/3600, 2), " (minutes): ", totaltime/60, " (seconds): ", totaltime)
-
-        #print("Jobs worked on: ")
-        #for issue in alljobs:
-        #    print(issue, "-", issue.fields.summary, " - ", round(issue.fields.timespent/3600, 2), "hrs")
-
 
     # Print to screen
     print("\n💻 Team name:            ", teamName)
@@ -52,11 +43,14 @@ def main():
     print("🤼 Headcount:            ", len(team))
     print("🕑 Hours Logged in JIRA: ", totalTeamTime/3600, "\n")
 
-    # Write summary to Excel file
+    # Create an excel file
     workbook = xlsxwriter.Workbook(lastmonth.strftime("%Y-%m-%d" + " - Team Hours Summary.xlsx"))
     bold = workbook.add_format({'bold': True})
 
+    # Summary page
     worksheet = workbook.add_worksheet('Summary')
+    worksheet.set_column('A:A', 40)
+    worksheet.set_column('B:B', 10)
     row = 0
     col = 0
     data = (
@@ -77,7 +71,11 @@ def main():
         worksheet.write(row, col + 1, value)
         row += 1
 
-    worksheet = workbook.add_worksheet('Detail')
+    # Detail page
+    worksheet2 = workbook.add_worksheet('Detail')
+    worksheet2.set_column('A:A', 10)
+    worksheet2.set_column('B:B', 60)
+    worksheet2.set_column('C:C', 5)
     row = 0
     col = 0
     for teammember in team:
@@ -85,18 +83,19 @@ def main():
         for issue in alljobs:
             teammembertotaltime += issue.fields.timespent
 
-        worksheet.write(row, col, teammember, bold)
-        worksheet.write(row, col + 1, "Issues", bold)
-        worksheet.write(row, col + 2, round(teammembertotaltime/3600, 2), bold)
+        worksheet2.write(row, col, teammember, bold)
+        worksheet2.write(row, col + 1, "Issues", bold)
+        worksheet2.write(row, col + 2, round(teammembertotaltime/3600, 2), bold)
         row += 1
 
         for issue in alljobs:
-            worksheet.write(row, col, str(issue))
-            worksheet.write(row, col + 1, str(issue.fields.summary))
-            worksheet.write(row, col + 2, round(issue.fields.timespent/3600, 2))
+            worksheet2.write(row, col, str(issue))
+            worksheet2.write(row, col + 1, str(issue.fields.summary))
+            worksheet2.write(row, col + 2, round(issue.fields.timespent/3600, 2))
             row += 1
         row += 1
 
+    # Write the Excel file out
     workbook.close()
 
 
