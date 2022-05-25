@@ -15,7 +15,7 @@ mccabe==0.6.1
 oauthlib==2.1.0
 pbr==4.2.0
 pycparser==2.18
-PyJWT==1.6.4
+PyJWT==2.4.0
 pylint==2.1.1
 pypiwin32==223
 pywin32==301
